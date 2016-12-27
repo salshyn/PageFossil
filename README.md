@@ -69,6 +69,8 @@ Debug messages in console + sourcemaps:
 
       npm run build-dev
 
+Currently there is a bug in the Windows run of ``build`` so at present please use ``build-dev`` on this platform.
+
 ### Loading into Chrome
 
 The Google Chrome web site provides the [steps for loading the extension into Chrome](https://developer.chrome.com/extensions/getstarted#unpacked).
