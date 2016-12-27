@@ -9,9 +9,46 @@ module.exports = function (background) {
         fsOptions = Object.keys(fsDetails),
         log = background.log,
         mainFolderKey = config.downloads.folderName,
+        invertColors = _byId('invert'),
+        style = _byId('style'),
+        style_invert = _byId('style-invert'),
         options = this;
     
     options.init = function (tab) {
+
+        // LABS-602
+        invertColors.addEventListener('change', function (event) {
+            if (invertColors.checked) {
+                style.disabled = true;
+                style_invert.disabled = false;
+                localStorage.setItem('css', 'style-invert');
+            } else {
+                style.disabled = false;
+                style_invert.disabled = true;
+                localStorage.setItem('css', 'style');
+            }
+        });
+        if (localStorage.getItem('css') !== 'style-invert' || localStorage.getItem('css') == null) {
+            style.disabled = false;
+            style_invert.disabled = true;
+            invertColors.checked = false;
+            localStorage.setItem('css', 'style');
+        } else {
+            style.disabled = true;
+            style_invert.disabled = false;
+            invertColors.checked = true;
+            localStorage.setItem('css', 'style-invert');
+        }
+
+        if (invertColors.checked) {
+            style.disabled = true;
+            style_invert.disabled = false;
+            localStorage.setItem('css', 'style-invert');
+        } else {
+            style.disabled = false;
+            style_invert.disabled = true;
+            localStorage.setItem('css', 'style');
+        }
 
         if (localStorage.getItem(mainFolderKey)) {
             downloadsFolder.innerHTML = localStorage.getItem(mainFolderKey);

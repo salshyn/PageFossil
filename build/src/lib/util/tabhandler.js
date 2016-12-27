@@ -1,9 +1,7 @@
-module.exports = function (background) {
+module.exports = function (config, log) {
 
-    var config = background.config,
-       imagesView = config.imagesView,
-       log = background.log,
-       tabHandler = this;
+    var imagesView = config.imagesView,
+     tabHandler = this;
 
     function _createImagesTab () {
         var existingTabId = false;
@@ -70,23 +68,6 @@ module.exports = function (background) {
         }
         else {
             _createImagesTab();
-        }
-    };
-
-    tabHandler.checkForImagesTab = function (cb) {
-        if (tabHandler.imagesTabId()) {
-            var id = tabHandler.imagesTabId();
-            chrome.tabs.get(id, function (tab) {
-                if (tab && tab.id == tabHandler.imagesTabId()) {
-                    cb(true);
-                }
-                else  {
-                    cb(false);
-                }
-            });
-        }
-        else {
-          cb(false);
         }
     };
 

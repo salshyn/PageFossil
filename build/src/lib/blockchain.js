@@ -1,18 +1,14 @@
 var Url = require('url');
 
-module.exports = function (background) {
+module.exports = function (config, log, fs) {
     var _byId = document.getElementById.bind(document),
      blockchainDetail = _byId('blockchain-detail');
      blockchainSection = _byId('blockchain-section');
-     blockchainStatus = _byId('blockchain-status'),
-     config = background.config,
+     blockchainStatus = _byId('blockchain-status');
      blockchainView = config.imagesView,
-     blockchain = this,
-     fs = background.fs,
-     log = background.log;
+     blockchain = this;
 
     function _checkStatus(id, hash) {
-        log.debug('_checkStatus');
         var checkStatus = new XMLHttpRequest(),
             c = config.blockchain,
             url = c.url + c.version + '/' + c.routes.status;
@@ -36,59 +32,6 @@ module.exports = function (background) {
         checkStatus.send(null);
     }
 
-    function _examineCache() {
-        tabHandler.checkForImagesTab(function (isOpen) {
-            if (isOpen) {
-                log.debug('polling blockchain...');
-                if (!blockchain.polling)
-                    blockchain.polling = true;
-                chrome.storage.local.get(_getLocalStorage);
-            }
-            else {
-                // log.debug('Images tab is not open, will not poll.');
-                if (blockchain.polling)
-                    blockchain.polling = false;
-            }
-        });
-    }
-
-    function _getLocalStorage(storage) {
-        var figures = Object.keys(storage);
-        for (var i=0; i <= figures.length - 1; i++) {
-           var id = figures[i],
-            figure = storage[figures[i]];
-            log.debug('image ID from cache: ' + id);
-            if (figure.blockchain &&
-                figure.blockchain.status) {
-                var b = figure.blockchain,
-                    statuses = config.blockchain.statuses;
-                if ((b.status === statuses.PENDING) ||
-                    (b.status === statuses.UNCONFIRMED)) {
-                    _query(id, (storage[figures[i]].hash)
-                      .substring(2));
-                }
-                else if (b.status === statuses.CONFIRMED) {
-                    log.debug('Figure ' + id + ' is ' +
-                        'already confirmed on the ' +
-                        'blockchain with tx id ' + 
-                        figure.blockchain.tx
-                    );
-                }
-                else {
-                    if (
-                        (config.blockchain.usage === 'always')  &&
-                        (b.status !== statuses.EXPIRED)
-                    ) {
-                        log.debug('Submitting image with ' +
-                            'unknown status.');
-                        _query(id, (storage[figures[i]].hash)
-                            .substring(2));
-                    }
-                }
-            }
-        }
-    }
-
     function _query(id, digest) {
         var queryBlockchain = new XMLHttpRequest(),
             c = config.blockchain,
@@ -109,7 +52,7 @@ module.exports = function (background) {
                         log.debug(id + ' is unconfirmed. Tx id: ' + resp.tx);
                         resp.status = c.statuses.UNCONFIRMED;
                     }
-                    _setConfirmStatus(id, resp);
+                    _setConfirmed(id, resp);
                 }
                 else if (resp.pending) {
                     resp.status = c.statuses.PENDING;
@@ -169,10 +112,10 @@ module.exports = function (background) {
         registerAsset.send(null);
     }
 
-    function _setConfirmStatus(id, resp) {
-        log.debug('_setConfirmStatus');
+    function _setConfirmed(id, resp) {
+        log.debug('_setConfirmed');
         chrome.storage.local.get(id, function (pswp) {
-            pswp[id].blockchain.status = resp.status;
+            pswp[id].blockchain.status = config.blockchain.statuses.CONFIRMED;
             pswp[id].blockchain.address = '';
             pswp[id].blockchain.updated = (new Date()).getTime();
             pswp[id].blockchain.price = '';
@@ -212,16 +155,44 @@ module.exports = function (background) {
 
     blockchain.monitor = function() {
         blockchain.intervalId = setInterval(function () {
+            log.debug('polling blockchain...');
             if (config.blockchain.usage !== 'never') {
-                _examineCache();
+                if (!blockchain.polling)
+                    blockchain.polling = true;
+                chrome.storage.local.get(function (storage) {
+                    var figures = Object.keys(storage);
+                    for (var i=0; i <= figures.length - 1; i++) {
+                       var id = figures[i],
+                        figure = storage[figures[i]];
+                        log.debug('ID: ' + id);
+                        if (figure.blockchain && figure.blockchain.status) {
+                            var b = figure.blockchain,
+                                statuses = config.blockchain.statuses;
+                            if ((b.status === statuses.PENDING) ||
+                                (b.status === statuses.UNCONFIRMED)) {
+                                _query(id, (storage[figures[i]].hash)
+                                  .substring(2));
+                            }
+                            else if (b.status === statuses.CONFIRMED) {
+                                log.debug('Figure ' + id + ' is already ' +
+                                    'confirmed on the blockchain with td id ' +
+                                    figure.blockchain.tx
+                                );
+                            }
+                            else {
+                              if (config.blockchain.usage === 'always') {
+                                log.debug('Blockchain registration set to ' +
+                                    'Always, submitting image with unknown ' +
+                                    'status.');
+                                _query(id, (storage[figures[i]].hash)
+                                  .substring(2));
+                              }
+                            }
+                        }
+                    }
+                });
             }
         }, config.timers.blockchainTimeout);
-        setTimeout(function () {
-            log.debug('Force interval timeout on blockchain poll.');
-            clearInterval(blockchain.intervalId);
-            blockchain.polling = false;
-            blockchain.monitor();
-        }, config.timers.forceBlockchainTimeout);
     };
 
     return blockchain;

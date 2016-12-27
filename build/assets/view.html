@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="photoswipe.css"/>
     <link rel="stylesheet" href="default-skin/default-skin.css"/>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css" id="style"/>
+    <link rel="stylesheet" href="style-invert.css" id="style-invert"/>
     <meta charset="UTF-8"/>
     <script src="js/view.js"></script>
   </head>
@@ -30,20 +31,6 @@
         </div>
         <div id="annotate-header"></div>
         <div id="annotate-screenshot-area">
-          <div id="annotate-palette">
-            <span id="annotate-palette-close">✖</span>
-            <div id="palette-up">
-              <div id="annotate-palette-black" style="background-color:#000000" class="palette-general"></div>
-              <div id="annotate-palette-yellow" style="background-color:#fcb711" class="palette-general"></div>
-              <div id="annotate-palette-orange" style="background-color:#f37021" class="palette-general"></div>
-            </div>
-            <div id="palette-down">
-              <div id="annotate-palette-red" style="background-color:#cc004c" class="palette-general"></div>
-              <div id="annotate-palette-purple" style="background-color:#6460aa" class="palette-general"></div>
-              <div id="annotate-palette-blue" style="background-color:#0089d0" class="palette-general"></div>
-              <div id="annotate-palette-green" style="background-color:#0db14b" class="palette-general"></div>
-            </div>
-          </div>
           <div id="annotate-tooltip">Click and drag to use the highlighter.</div>
           <div dir="ltr" id="annotate-container">
             <div id="annotate-edge"><img id="annotate-image" />
@@ -154,6 +141,15 @@
             <span>From image detail</span><span id="blockchain-optional-saved"></span><br>
             <input type="radio" name="blockchain" id="blockchain-never" value="never">
             <span>Never queue</span><span id="blockchain-never-saved"></span><br>
+          </div>
+        </div>
+        <div class="options-row">
+          <div class="options-left">
+            <span>Switch Color</span><br>
+          </div>
+          <div class="options-right">
+            <input type="checkbox" name="invert" id="invert"/>
+            <span>Invert Colors</span><br>
           </div>
         </div>
       </div>

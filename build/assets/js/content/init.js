@@ -116,7 +116,7 @@ window.document.___capture___ = function () {
         capture.log.debug('capture.X: ' + capture.X + ' capture.Y: ' +
             capture.Y + ' screen: ' + JSON.stringify(screen));
         if (screen.y2 > 15000) {
-            alert('This page is too large for the extension to capture.');
+            alert('Image too big');
             capture.restore();
             return;
         }

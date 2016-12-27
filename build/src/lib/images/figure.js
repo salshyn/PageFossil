@@ -12,7 +12,6 @@ module.exports = function (background, gallery) {
         foot = config.footer.pad,
         fs = background.fs,
         log = background.log,
-        msg = gallery.images.message,
         qsz = config.qrcode.size,
         pad = config.qrcode.pad,
         sha256 = new SHA256(),
@@ -23,7 +22,7 @@ module.exports = function (background, gallery) {
             var byteArray = new Uint8Array(arrayBuffer),
                 iPrefix = config.iPrefix,
                 sha256sum = sha256.hash(byteArray);
-            msg.innerHTML = 'Image hash: ' + iPrefix + sha256sum;
+            log.debug('Image hash: ' + iPrefix + sha256sum);
             png.hash = iPrefix + sha256sum;
         }
         catch (err) {
@@ -35,22 +34,11 @@ module.exports = function (background, gallery) {
         gallery.add(_png2Pswp(png));
     };
 
-    function _checkExpired(pswp) {
-        if (pswp.blockchain.status === config.blockchain.statuses.PENDING) {
-            var now = (new Date()).getTime(),
-                created = pswp.timestamp,
-                age = now - created;
-            if (age >= config.timers.forcePendingRegTimeout) {
-                 pswp.blockchain.status = config.blockchain.statuses.EXPIRED
-            }
-        }
-        return pswp;
-    }
-
     function _clickFigure(e) {
         e = e || window.event;
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
-        figure.thumbnail = _handleFigureClick(e);
+        var clicked = e.target;
+        figure.thumbnail = _handleFigureClick(clicked, e);
         if (figure.thumbnail) {
             var clickedFigure = (figure.thumbnail.parentNode).parentNode,
                 childNodes = clickedFigure.parentNode.childNodes,
@@ -71,16 +59,36 @@ module.exports = function (background, gallery) {
                 _openPhotoSwipe(clickedFigure.id);
             }
         }
+        else {
+            log.error('No thumbnail click detected.');
+        }
         return false;
     }
 
-    function _handleFigureClick(e) {
-        var clicked = e.target,
-          figure = e.currentTarget;
-        if (clicked.tagName === 'A') {
+    function _handleFigureClick(clicked, e) {
+        if (clicked.tagName === 'IMG') {
+            return clicked;
+        }
+        else if (clicked.tagName === 'FIGURE') {
+            return (clicked.childNodes[0]).childNodes[0];
+        }
+        else if (clicked.tagName === 'FIGCAPTION') {
+            return (clicked.previousSibling).childNodes[0];
+        }
+        else if (clicked.tagName === 'H2' ||
+                         clicked.tagName === 'SPAN') {
+            return (clicked.parentNode.previousSibling).childNodes[0];
+        }
+        else if (clicked.tagName === 'STRONG') {
+            return (clicked.parentNode.parentNode.previousSibling)
+              .childNodes[0];
+        }
+        else if (clicked.tagName === 'A') {
             chrome.tabs.create(
-                {url: clicked.getAttribute('href'),
-                 active: true},
+                {
+                    url: clicked.getAttribute('href'),
+                    active: true
+                },
                 function (tab) {
                     if (chrome.runtime.lastError) {
                         log.error('Error visiting link: ' +
@@ -93,12 +101,8 @@ module.exports = function (background, gallery) {
             );
             return false; 
         }
-        else if (clicked.className.match(/blockchain-detail/)) {
-            window.prompt("Copy Bitcoin address to clipboard: Ctrl+C, Enter",
-                ((clicked.innerHTML).split('address '))[1]);
-        }
         else {
-            return (figure.childNodes[0]).childNodes[0];
+            log.error('Error: Unexpected click on ' + clicked.tagName);
         }
     }
 
@@ -109,27 +113,16 @@ module.exports = function (background, gallery) {
                     captionEl.children[0].innerHTML = '';
                     return false;
                 }
-                var payInfo = '',
-                    payStatus = pswp.blockchain.status || config.blockchain.statuses.UNSENT;
-                if (pswp.blockchain.status === config.blockchain.statuses.PENDING) {
-                    payInfo = gallery.marshalPaymentMessage(
-                        pswp.blockchain.price, pswp.blockchain.address);
-                    payStatus = pswp.blockchain.status;
-                }
-                else if (pswp.blockchain && pswp.blockchain.tx) {
-                    payStatus = '<a target="_blank" href="' + config.blockchain.explorerURL +
-                        pswp.blockchain.tx + '">' + pswp.blockchain.status +
-                        '</a>';
+                var payInfo;
+                if (pswp.blockchain && pswp.blockchain.address) {
+                    payInfo = 'title="Please pay ' + 
+                        pswp.blockchain.price/100000 +
+                        'mBTC to Bitcoin address ' + 
+                        pswp.blockchain.address + '."';
                 }
                 pswp.blockchain.status = _byId(figureId)
                     .getAttribute('data-blockchain-status') ||
                          pswp.blockchain.status;
-                pswp.blockchain.price = _byId(figureId)
-                    .getAttribute('data-blockchain-price') ||
-                         pswp.blockchain.price;
-                pswp.blockchain.address = _byId(figureId)
-                    .getAttribute('data-blockchain-address') ||
-                         pswp.blockchain.address;
                 captionEl.children[0].innerHTML = '<strong>TIME</strong>: ' +
                     pswp.title + '<br><strong>URL</strong>: ' +
                     '<a target="_blank" ' + 'style="color:' + 
@@ -137,11 +130,9 @@ module.exports = function (background, gallery) {
                     pswp.url + '">' + pswp.url + '</a><br><span><strong>' +
                     'HASH</strong>: ' + (pswp.hash).substring(2) +
                     '</span><br><span><strong>NOTES</strong>: ' + pswp.notes +
-                    '</span></span><br><span><strong>BLOCKCHAIN</strong>: ' +
+                    '</span></span><br><span><strong>BLOCKCHAIN Tx</strong>: ' +
                     '<span ' + payInfo + ' class="blockchain-status-' +
-                    pswp.id + '">' + payStatus + '</span>' + 
-                    '<span class="blockchain-detail blockchain-detail-' + pswp.id + '">  ' +
-                        payInfo + '</span></span>';
+                    pswp.id + '">' + pswp.blockchain.status + '</span></span>';
                 return true;
             },
             clickToCloseNonZoomable: false, closeEl:true, closeElClasses: [],
@@ -177,7 +168,6 @@ module.exports = function (background, gallery) {
         if (e.data.length > 0) {
             png.notes = decoder.decode(
                 Base64.toByteArray(e.data[0][2]));
-            msg.innerHTML = png.notes;
         }
         else {
             log.error('Could not find notes in QR code.');
@@ -208,7 +198,9 @@ module.exports = function (background, gallery) {
         if (
             (config.blockchain.usage === 'optional')
                 &&
-            (blockchainStatus === config.blockchain.statuses.UNSENT)
+            (blockchainStatus !== config.blockchain.statuses.PENDING)
+                &&
+            (blockchainStatus !== config.blockchain.statuses.CONFIRMED)
         ) {
             shareButtons.push({
                 id:'blockchain',
@@ -225,19 +217,13 @@ module.exports = function (background, gallery) {
         }
         var g = new PhotoSwipe(gallery.images.detail, PSUI_Default,
             gallery.images.items, options);
-        g.listen('shareLinkClick', function (e, target) {
-            if (target.id === 'queue-for-blockchain') {
-                var modal = (document.getElementsByClassName(
-                    'pswp__share-modal'
-                )[0]);
-                if (_byId(figureId).getAttribute('data-blockchain-status') === config.blockchain.statuses.PENDING) {
-                    alert('This image is already queued for registration');
+        g.listen('shareLinkClick', (function (details) {
+            return function (e, target) {
+                if (target.id === 'queue-for-blockchain') {
+                    blockchain.register(figureId, hash); // ##>
                 }
-                else {
-                    blockchain.register(figureId, hash);
-                }
-            }
-        });
+            };
+        })(gallery.images.detail));
         g.init();
     };
 
@@ -275,8 +261,6 @@ module.exports = function (background, gallery) {
             var s = info[1].split('h');
             png.w = parseInt(s[0]);
             png.h = parseInt(s[1]);
-            msg.innerHTML = ((new Date(png.timestamp)).toString()) +
-              ' Width: ' + png.w + ' Height: ' + png.h;
         }
         else {
             log.error('Could not find stats in QR code.');
@@ -312,7 +296,6 @@ module.exports = function (background, gallery) {
         figure.setAttribute('itemprop', 'associatedMedia');
         figure.setAttribute('itemscope', '');
         figure.setAttribute('itemtype', 'http://schema.org/ImageObject');
-        pswp = _checkExpired(pswp);
         figure.setAttribute('id', pswp.id);
         var attrs = Object.keys(pswp.blockchain);
         for (var i=0; i <= attrs.length - 1; i++) {
@@ -330,7 +313,6 @@ module.exports = function (background, gallery) {
         if (e.data.length > 0) {
             var result = e.data[0][2];
             png.url = result;
-            msg.innerHTML = png.url;
         }
         else {
             log.error('Could not find URL in QR code.');
@@ -345,45 +327,17 @@ module.exports = function (background, gallery) {
     };
 
     figure.update = function(figureId, pswp) {
-        var f = document.getElementById(figureId);
-        var attrs = Object.keys(pswp.blockchain);
-        for (var i=0; i <= attrs.length - 1; i++) {
-            f.setAttribute('data-blockchain-' + attrs[i],
-                pswp.blockchain[attrs[i]]);
-        }
-        pswp = _checkExpired(pswp);
-
-        var statusUpdaters = document.getElementsByClassName(
+        var x = document.getElementById(figureId);
+        x.setAttribute('data-blockchain-status', pswp.blockchain.status);
+        var blockchainStatusUpdaters = document.getElementsByClassName(
             'blockchain-status-' + pswp.id);
-        for(var i=0; i <= statusUpdaters.length - 1; i++) {
-            if (
-                (pswp.blockchain.status === config.blockchain.statuses.CONFIRMED)
-                   ||
-                (pswp.blockchain.status === config.blockchain.statuses.UNCONFIRMED)
-            ) {
-                statusUpdaters[i].innerHTML = '<a target="_blank" href="' +
-                    config.blockchain.explorerURL + pswp.blockchain.tx +
-                    '" >' + pswp.blockchain.status + '</a>';
-            }
-            else {
-                statusUpdaters[i].innerHTML = pswp.blockchain.status;
-            }
+        for(var i=0; i < blockchainStatusUpdaters.length; i++) {
+            blockchainStatusUpdaters[i].innerHTML = pswp.blockchain.status;
+            blockchainStatusUpdaters[i].setAttribute('title',
+                'Please pay ' + pswp.blockchain.price/100000 +
+                    'mBTC to Bitcoin address ' + pswp.blockchain.address + '.'
+            );
         } 
-        if (pswp.blockchain.status === config.blockchain.statuses.PENDING) {
-            var detailUpdaters = document.getElementsByClassName(
-                'blockchain-detail-' + pswp.id);
-            for(var i=0; i <= detailUpdaters.length - 1; i++) {
-                detailUpdaters[i].innerHTML = gallery.marshalPaymentMessage(
-                    pswp.blockchain.price, pswp.blockchain.address);
-            }
-        }
-        else {
-            var detailUpdaters = document.getElementsByClassName(
-                'blockchain-detail-' + pswp.id);
-            for(var i=0; i <= detailUpdaters.length - 1; i++) {
-                detailUpdaters[i].innerHTML = '';
-            }
-        }
     };
 
     return figure;
