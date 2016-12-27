@@ -117,17 +117,11 @@ Cause every image to automatically queue for registration (set to **pending**).
 
 Disable all blockchain activity. 
 
-## Bitcoin payments
-
-To register any **pending** page on the blockchain, make a payment of the required amount to the displayed bitcoin address.  
-
-Assuming PoE successfully accepts the bitcoin payment and registers the corresponding hash, status should flip from **pending** to **confirmed** and link to a record of your new bitcoin transaction.
-
 [[top]](#pagefossil-chrome-extension)
 
 ## Symbolic links
 
-By removing the default ``pagefossil`` subfolder and replacing it with an identically-named symbolic link to a folder residing at a [file hosting service](https://en.wikipedia.org/wiki/Comparison_of_file_hosting_services#File_hosting_services), images can be shared with anyone who also has access that hosted folder.   Here are three examples that all assume the extension has already been installed and that your Chrome download folder is ``~/Downloads``.
+By removing the default ``pagefossil`` subfolder and replacing it with an identically-named symbolic link to a folder residing at a [file hosting service](https://en.wikipedia.org/wiki/Comparison_of_file_hosting_services#File_hosting_services), images can be shared with anyone who also has access that hosted folder.   Here are two examples that all assume the extension has already been installed and that your Chrome download folder is ``~/Downloads``.
 
 ### Dropbox
 
@@ -167,7 +161,7 @@ You could also consider editing ``manifest.json`` yourself to reflect permission
 
 To something like:
 
-    "file:///Users/petethomas/Downloads/*",
+    "file:///Users/<myuser>/Downloads/*",
 
 Then run ``npm run build`` again before loading the extension.
 
