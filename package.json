@@ -1,0 +1,34 @@
+{
+    "name": "PageFossil",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/c2fo-lab/PageFossil.git"
+    },
+    "license": "MIT",
+    "version": "0.1.0",
+    "author": "C2FO Innovation Lab",
+    "description": "Save web pages as images and register them on the blockchain.",
+    "homepage": "https://github.com/c2fo-lab/PageFossil.git",
+    "dependencies": {
+        "base64-js": "1.2.0",
+        "grapheme-breaker": "0.3.2",
+        "loglevel": "1.4.1",
+        "pica": "2.0.8",
+        "photoswipe": "4.1.1",
+        "qrious": "2.1.0"
+    },
+    "browser": {},
+    "devDependencies": {
+        "async": "2.0.1",
+        "browserify": "latest",
+        "resize-img": "1.1.1",
+        "shelljs": "0.7.3",
+        "uglifyify": "3.0.3"
+    },
+    "scripts": {
+        "build": "npm install --no-optional && node ./build/bin/make.js prod",
+        "build-dev": "npm install --no-optional && node ./build/bin/make.js dev",
+        "clean": "rm -rf ./chrome-extensions ./build/src/config.js",
+        "really-clean": "rm -rf ./chrome-extensions ./node_modules ./build/src/config.js"
+    }
+}

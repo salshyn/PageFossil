@@ -1,0 +1,40 @@
+{
+    "name"        : "___NAME___",
+    "author"      : "___AUTHOR___",
+    "version"     : "___VERSION___",
+    "homepage_url": "___HOMEPAGE___",
+    "description" : "___DESCRIPTION___",
+    "manifest_version": 2,
+    "icons": {
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+    },
+    "background": {
+        "scripts": ["js/event.js"],
+        "persistent":false
+    },
+    "content_scripts": [],
+    "browser_action": {
+        "default_icon": "images/browseraction.png",
+        "default_title": "___DESCRIPTION___",
+        "default_popup": "popup.html"
+    },
+    "options_ui": {
+        "page": "___MAINHTML___?v=___NAME___-options",
+        "chrome_style": true
+    },
+    "web_accessible_resources": [
+        "images/icon32.png",
+        "images/icon256.png",
+        "images/spinner.gif"
+    ],
+    "offline_enabled":true,
+    "permissions": [
+        "activeTab",
+        "downloads",
+        "file:///*/*",
+        "https://proofofexistence.com/api/*",
+        "storage",
+        "tabs"
+    ]
+}

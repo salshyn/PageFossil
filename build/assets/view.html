@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head id="head" lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="photoswipe.css"/>
+    <link rel="stylesheet" href="default-skin/default-skin.css"/>
+    <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8"/>
+    <script src="js/view.js"></script>
+  </head>
+  <body id="body">
+
+    <div id="annotate-section">
+      <div id="annotate-toast"></div>
+      <button id="annotate-open-modal" data-target="annotate-modal" style="display:none"></button>
+      <div class="modal-sec-overlay" id="annotate-modal">
+          <div class="modal-box modal-small" id="modal-box">
+            <button id="annotate-close-modal" data-target="annotate-modal" class="close-btn">&#10003;</button>
+            <div class="annotate-modal-title">
+              <span style="white-space:nowrap">
+                <img style="width:16px;height:16px;" src="images/icon-clipboard.png" />
+                <span id="annotate-modal-title"></span>
+              </span>
+            </div>
+            <span id="annotate-grapheme-counter"></span>
+            <div class="modal-content" id="modal-content">
+              <textarea id="annotate-modal-notes" autofocus></textarea>
+            </div>
+          </div>
+        </div>
+        <div id="annotate-header"></div>
+        <div id="annotate-screenshot-area">
+          <div id="annotate-palette">
+            <span id="annotate-palette-close">✖</span>
+            <div id="palette-up">
+              <div id="annotate-palette-black" style="background-color:#000000" class="palette-general"></div>
+              <div id="annotate-palette-yellow" style="background-color:#fcb711" class="palette-general"></div>
+              <div id="annotate-palette-orange" style="background-color:#f37021" class="palette-general"></div>
+            </div>
+            <div id="palette-down">
+              <div id="annotate-palette-red" style="background-color:#cc004c" class="palette-general"></div>
+              <div id="annotate-palette-purple" style="background-color:#6460aa" class="palette-general"></div>
+              <div id="annotate-palette-blue" style="background-color:#0089d0" class="palette-general"></div>
+              <div id="annotate-palette-green" style="background-color:#0db14b" class="palette-general"></div>
+            </div>
+          </div>
+          <div id="annotate-tooltip">Click and drag to use the highlighter.</div>
+          <div dir="ltr" id="annotate-container">
+            <div id="annotate-edge"><img id="annotate-image" />
+              <canvas style="position:absolute" id="annotate-border"></canvas>
+              <canvas style="background:url(../images/annotate-background.png) repeat;display:none" id="annotate-whole"></canvas>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <div id="blockchain-section">
+      <h2 id="blockchain-status">Blockchain certification</h2>
+      <ul id="blockchain-detail"></li>
+    </div>
+
+    <div id="images-section">
+      <a target="_blank" href="https://github.com/c2fo-lab/PageFossil"><img id="images-logo" src="images/icon256.png" style="position: relative; top: 0; left: 0;"/></a>
+
+      <div id="images-showroom" class="images-showroom" itemscope itemtype="http://schema.org/ImageGallery">
+      </div>
+
+      <div id="image-detail" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg" id="pswp__background-override"></div>
+        <div class="pswp__scroll-wrap">
+          <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+          </div>
+          <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+              <div class="pswp__counter"></div>
+              <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+              <button class="pswp__button pswp__button--share" title="Share"></button>
+              <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+              <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+              <div class="pswp__preloader">
+                <div class="pswp__preloader__icn">
+                  <div class="pswp__preloader__cut">
+                    <div class="pswp__preloader__donut"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+              <div class="pswp__share-tooltip"></div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+              <div class="pswp__caption__center"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="options-section">
+      <div class="options-container">
+        <div class="options-row">
+          <div class="options-left">
+            <span>Detected download folder</span>
+          </div>
+          <div class="options-right">
+            <span id="downloads-folder">(pending)</span>
+          </div>
+        </div>
+        <div class="options-row">
+          <div class="options-left">
+            <span>Delay between captures</span>
+          </div>
+          <div class="options-right">
+            <select id="per-screen-delay">
+              <option value="0">0</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+              <option value="300">300</option>
+              <option value="400">400</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+            </select><span>ms </span><span id="per-screen-delay-saved"></span>
+          </div>
+        </div>
+        <div class="options-row">
+          <div class="options-left">
+            <span>Delay before capture start</span>
+          </div>
+          <div class="options-right">
+            <select id="initial-delay">
+              <option value="0">0</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+              <option value="300">300</option>
+              <option value="400">400</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+            </select><span>ms </span><span id="initial-delay-saved"></span>
+          </div>
+        </div>
+        <div class="options-row">
+          <div class="options-left">
+            <span>Blockchain</span><br>
+          </div>
+          <div class="options-right">
+            <input type="radio" name="blockchain" id="blockchain-always" value="always">
+            <span>Always queue</span><span id="blockchain-always-saved"></span><br>
+            <input type="radio" name="blockchain" id="blockchain-optional" value="optional">
+            <span>From image detail</span><span id="blockchain-optional-saved"></span><br>
+            <input type="radio" name="blockchain" id="blockchain-never" value="never">
+            <span>Never queue</span><span id="blockchain-never-saved"></span><br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="loading-div-background">
+      <div id="loading-div">
+        <div style="position: relative; left: 0; top: 0;">
+          <img id="loading-logo" src="images/icon256.png" style="padding-top:101px; position: relative; top: 0; left: 0;"/>
+          <img src="images/spinner.gif" style="padding-left:105px;padding-top:104px; height:32px; position: absolute; top: 30px; left: 70px;"/>
+        </div>
+        <span id="message" style="padding:15px;display:block;color:#eee;">
+          <p>Please wait while we test with a small text file...</p>
+        </span>
+      </div>
+    </div>
+
+  </body>
+</html>
