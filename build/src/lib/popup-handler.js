@@ -1,9 +1,13 @@
 var Capture = require('./capture.js');
 
+<<<<<<< HEAD
 module.exports = function (background) {
 
     var config = background.config,
         log = background.log;
+=======
+module.exports = function (config, log) {
+>>>>>>> 0e17d4614709bb41c27dc8122a7b95ee1d3c8608
 
     function _checkFileURIPerms() {
         chrome.extension.isAllowedFileSchemeAccess(function (isAllowed) {
@@ -51,7 +55,7 @@ module.exports = function (background) {
         popup.footer.innerHTML = config.popup.footer.text;
 
         popup.capture.onclick = function () {
-            var capture = new Capture(background, tab.id, tab.url,
+            var capture = new Capture(config, log, tab.id, tab.url,
                 tab.windowId);
             popup.overlay.style.display = 'block';
             capture.handoff();

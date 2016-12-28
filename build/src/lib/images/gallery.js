@@ -6,52 +6,38 @@ module.exports = function (background, images) {
         _byId = document.getElementById.bind(document),
         config = background.config,
         fs = background.fs,
-        msg = images.message,
         gallery = this,
-        log = background.log,
-        subfoldersSeen = {};
+        log = background.log;
 
-    gallery.images = images;
     gallery.figure = new Figure(background, gallery);
+    gallery.images = images;
 
     function _addCaption(f, pswp) {
         var caption = document.createElement('figcaption'),
             payInfo = '',
-            payStatus = pswp.blockchain.status || config.blockchain.statuses.UNSENT,
             pre = '<span><strong style="font-size:120%;">';
         caption.setAttribute('itemprop', 'caption description');
         caption.id = 'caption-' + pswp.id;
         if (pswp.blockchain.status === config.blockchain.statuses.PENDING) {
-            payInfo = gallery.marshalPaymentMessage(pswp.blockchain.price, 
-                pswp.blockchain.address);
-                payStatus = pswp.blockchain.status;
-        }
-        else if (
-            (pswp.blockchain.status === config.blockchain.statuses.CONFIRMED)
-                ||
-            (pswp.blockchain.status === config.blockchain.statuses.UNCONFIRMED)
-        ) {
-          payStatus = '<a target="_blank" href="' +
-              config.blockchain.explorerURL + pswp.blockchain.tx + '">' +
-              pswp.blockchain.status + '</a>';
+            payInfo = ' &#8594; Send ' + pswp.blockchain.price/100000 + 'mBTC to ' +
+                pswp.blockchain.address; 
         }
         var time = _placeOrdinal((new Date(pswp.timestamp)
             .toString()).replace(config.regex.imageDate,
                 "$1 $2 " + "$3" + " $4"));
         caption.innerHTML = '<h2 style="margin:2px;">' + time + '</h2>' +
             pre + 'DIMENSIONS</strong>: ' + pswp.w + 'x' + pswp.h +
-                '</span><br>' +
-            pre + 'HASH</strong>: ' + (pswp.hash).substring(2) + '</span><br>' +
-            pre + 'SIZE</strong>: ' + pswp.size + '</span><br>' +
-            pre + 'URL</strong>: <a href="' + pswp.url + '">' + pswp.url +
-                '</a><br>' +
+            '</span><br>' + pre + 'HASH</strong>: ' +
+            (pswp.hash).substring(2) + '</span><br>' + pre + 
+            'SIZE</strong>: ' + pswp.size + '</span><br>' + pre + 
+            'URL</strong>: <a href="' + pswp.url + '">' + pswp.url +
             pre + 'NOTES</strong>: ' + pswp.notes + '</span><br>' +
             '<span><strong style="font-size:120%;">' +
-            'BLOCKCHAIN</strong>: <span ' +
+            'BLOCKCHAIN Tx</strong>: <span ' +
             'class="blockchain-status-' + pswp.id + '">' +
-            payStatus + '</span>' +
-            '<span class="blockchain-detail blockchain-detail-' + pswp.id +
-                '">  ' + payInfo + '</span></span><br>';
+            pswp.blockchain.status + '</span>' +
+            '<span class="blockchain-detail">  ' + payInfo + '</span>' +
+            '</span><br>';
         f.appendChild(caption);
     }
 
@@ -78,7 +64,6 @@ module.exports = function (background, images) {
 
     function _placeFigure(f, pswp) {
 
-        subfoldersSeen[f.getAttribute('data-subfolder')] = 1;
         var allFigures = document.querySelectorAll('figure'),
             cache = {};
         cache[pswp.pid] = pswp
@@ -97,7 +82,7 @@ module.exports = function (background, images) {
             images.items.push(pswp);
         }
         else if (_byId(pswp.id)) {
-            msg.innerHTML = pswp.id + ' already in DOM.';
+            log.debug(pswp.id + ' already in DOM.');
             gallery.figure.update(f.id, pswp);
         }
         else {
@@ -124,14 +109,14 @@ module.exports = function (background, images) {
             }
         }
         images.numPositioned++;
-        msg.innerHTML = 'Placed ' + images.numPositioned + ' of ' +
-            (images.total) + ' images.';
+        log.debug('Positioned ' + images.numPositioned + ' of ' +
+            (images.total) + ' images.');
 
         // All nodes inserted.
         if (
-            ((images.numPositioned === images.total) &&
-                (Object.keys(subfoldersSeen).length  === fs.numSubfolders)) ||
-            ((images.total === 1) || (!images.total))
+            (images.numPositioned === images.total) ||
+            (images.total === 1) ||
+            (!images.total)
         ) {
             var allFigures = document.querySelectorAll('figure'),
                 lastSubfolder;
@@ -171,17 +156,9 @@ module.exports = function (background, images) {
         link.appendChild(img);
         f.appendChild(link);
         _addCaption(f, pswp);
-        msg.innerHTML = 'Add figure ' + pswp.id + ' from subfolder: ' +
-            subfolderLabel;
+        log.debug('Add figure ' + pswp.id + ' from subfolder: ' +
+            subfolderLabel);
         _placeFigure(f, pswp);
-    };
-  
-    gallery.marshalPaymentMessage = function(amount, address) {
-        var segments = config.blockchain.paymentWords;
-        if (amount > 0 && address)
-          return ' &#8594; ' + segments[0] + amount/100000 + segments[1] +
-              address;
-        return '';
     };
 
     return gallery;

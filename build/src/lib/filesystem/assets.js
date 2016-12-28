@@ -3,15 +3,9 @@ module.exports = function (config, log, fs, prefix) {
     var assets = this,
         foot = config.footer.pad,
         fsDetails = config.fs['local'],
-        msg = fs.handler.message,
         pad = config.qrcode.pad,
         prefix = fsDetails.proto + '://',
-        qsz = config.qrcode.size,
-        sep = config.fs.sep.u;
-
-    if (config.os === 'win') 
-      sep = config.fs.sep.w;
-
+        qsz = config.qrcode.size;
 
     function _examineAssets(subfolderURL, fileList, subfolderContents) {
         fileList = fileList.split(new RegExp(
@@ -61,7 +55,7 @@ module.exports = function (config, log, fs, prefix) {
                 qrCanvas.style.display = 'none';
                 fs.handler.detail.appendChild(qrCanvas);
                 var qrCtx = qrCanvas.getContext('2d');
-                msg.innerHTML = '<p>Please wait while ' +
+                fs.handler.message.innerHTML = '<p>Please wait while ' +
                   'we process all outstanding asset data.</p>';
                 fs.handler.overlay.style.display = 'block';
                 for (var i = 0; i <= files.length - 1; i++) {
@@ -105,7 +99,7 @@ module.exports = function (config, log, fs, prefix) {
                 };
             }
             else {
-                msg.innerHTML = 'Load ' + pswp['image-' + id] + ' from local storage.';
+                log.debug('Load from local storage.');
                 fs.handler.gallery.add(pswp['image-' + id]);
             }
         });
@@ -152,7 +146,7 @@ module.exports = function (config, log, fs, prefix) {
                 }
             }
         };
-        msg.innerHTML = 'Request ' + subfolderURL;
+        log.debug('getAssets request ' + subfolderURL);
         getAssets.open('GET', subfolderURL, true);
         getAssets.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         getAssets.send(null);
@@ -161,7 +155,7 @@ module.exports = function (config, log, fs, prefix) {
     assets.showNoneFoundMsg = function () {
         log.debug('No assets found.');
         if (fs.handler) {
-            msg.innerHTML = 'No ' + config.appName +
+            fs.handler.message.innerHTML = 'No ' + config.appName +
                 ' assets found.<br>Waiting for ' + config.appName +
                 ' assets...';
             if (fs.handler.overlay.style.display !== 'block')

@@ -23,11 +23,8 @@ module.exports = function (cb) {
             baseColor: '#2f2e2c',
             blockchain: {
                 defaultPrice: 500000,
-                explorerURL: 'https://www.blocktrail.com/BTC/tx/',
-                paymentWords: ['Send ', 'mBTC to address '],
                 statuses: {
                     CONFIRMED: 'confirmed',
-                    EXPIRED: 'expired',
                     PENDING: 'pending',
                     UNCONFIRMED: 'unconfirmed',
                     UNSENT: 'none'
@@ -37,7 +34,7 @@ module.exports = function (cb) {
                     status: 'status',
                 },
                 url: 'https://proofofexistence.com/api/',
-                usage: 'optional',
+                usage: 'always',
                 version: 'v1'
             },
             browserActionImg: '/images/browseraction.png',
@@ -118,10 +115,8 @@ module.exports = function (cb) {
                 fileRetry: 5000,
                 findFolderDelay: 2000,
                 forceAnnotateTimeout: 30000,
-                forceBlockchainTimeout: 300000,
-                forceOptionsTimeout: 30000,
-                forcePendingRegTimeout: 1800000,
                 forcePollTimeout: 30000,
+                forceOptionsTimeout: 30000,
                 initialDelay: '0',
                 messageDisplay: 700,
                 mouseTimeout: 100,
@@ -135,6 +130,8 @@ module.exports = function (cb) {
                 timeout: 3000
             },
             version: '___VERSION___', // Set via package.json
+            visibleNo: '0',
+            visibleYes: '1',
             website: 'https://twitter.com/c2folab',
             workerScripts: {
                 qrscan: 'js/vendor/decoder.min.js'

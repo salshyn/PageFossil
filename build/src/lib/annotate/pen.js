@@ -186,7 +186,7 @@
         pen.layers[pen.currentIndex] = newObject;
         currentLayer = Object.assign(newObject, currentLayer);
         currentLayer.active = true;
-        currentLayer.color = localStorage.getItem('palette-color');
+        currentLayer.color = config.baseColor;
         currentLayer.lineWidth = 2;
         return(newObject);
     }

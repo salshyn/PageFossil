@@ -1,9 +1,18 @@
-module.exports = function (background, tabId, tabURL, windowId) {
+var TabHandler = require('./util/tabhandler.js');
+
+// LABS-602
+if (localStorage.getItem('css') == 'style-invert') {
+    document.getElementById('style').disabled = true;
+    document.getElementById('style-invert').disabled = false;
+} else {
+    document.getElementById('style').disabled = false;
+    document.getElementById('style-invert').disabled = true;
+}
+
+module.exports = function (config, log, tabId, tabURL, windowId) {
 
     var capture = this,
-        config = background.config,
-        log = background.log
-        tabHandler = background.tabHandler;
+        tabHandler = new TabHandler(config, log);
 
     capture.tabId = tabId;
     capture.url = tabURL;

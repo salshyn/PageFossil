@@ -7,6 +7,15 @@
 
 module.exports = function (background) {
 
+    // LABS-602
+    if (localStorage.getItem('css') == 'style-invert') {
+        document.getElementById('style').disabled = true;
+        document.getElementById('style-invert').disabled = false;
+    } else {
+        document.getElementById('style').disabled = false;
+        document.getElementById('style-invert').disabled = true;
+    }
+
     var annotate = this,
         blockchain = background.blockchain,
         _byId = document.getElementById.bind(document),
@@ -29,9 +38,7 @@ module.exports = function (background) {
         var elements = ['close-modal', 'container', 'border', 'edge',
             'grapheme-counter', 'header', 'image', 'modal-title',
             'modal-content', 'modal-notes', 'open-modal', 'screenshot-area',
-            'tooltip', 'whole', 'palette', 'palette-black', 'palette-close',
-            'palette-yellow', 'palette-orange', 'palette-red', 'palette-purple',
-            'palette-blue', 'palette-green', 'palette-display'];
+            'tooltip', 'whole'];
         for (var i=0; i<= elements.length - 1; i++) {
             var camelCased = elements[i].replace(/-([a-z])/g,
                 function (c) { return c[1].toUpperCase(); }
@@ -188,40 +195,6 @@ module.exports = function (background) {
             else
                 annotate.graphemeCounter.innerHTML = max - count;
         });
-
-        // LABS-622
-        // Contains palettes
-        var palettes = [annotate.paletteBlack, annotate.paletteYellow, annotate.paletteOrange,
-        annotate.paletteRed, annotate.palettePurple, annotate.paletteBlue, annotate.paletteGreen];
-        // Black color by default
-        annotate.paletteBlack.className += " palette-selected";
-        // Assigns 'selected' class name and local storage value in a loop
-        for (var i = 0; i < palettes.length; i++) {
-            palettes[i].onclick = function () {
-                localStorage.setItem('palette-color', this.style.backgroundColor);
-                // Assign base/compliment if background color is black
-                if (this.style.backgroundColor == 'rgb(0, 0, 0)') {
-                    localStorage.setItem('palette-color', config.baseColor);
-                }
-                clearPaletteSelected();
-                this.className += " palette-selected";
-            }
-        }
-        // Clears all class names and sets one
-        var clearPaletteSelected = function() {
-            for (var i = 0; i < palettes.length; i++) {
-                palettes[i].className = 'palette-general';
-            }
-        }
-        // This runs on right click
-        window.addEventListener('contextmenu', function(ev) {
-            ev.preventDefault();
-            annotate.palette.style.display = 'block';
-            annotate.palette.style.left = ev.pageX + "px";
-            annotate.palette.style.top = ev.pageY + "px";
-            return false;
-        }, false);
-
         var content = _byId('modal-box');
         var element = _byId('annotate-open-modal')
             .getAttribute('data-target');
@@ -234,12 +207,6 @@ module.exports = function (background) {
             var openAnimation = null;
         else
             var openAnimation = 'open-modal-animation';
-
-        // LABS-622
-        annotate.paletteClose.onclick = function() {
-            annotate.palette.style.display = 'none';
-        }
-
         annotate.openModal.onclick = function() {
             modal.style.display = 'block';
             content.style.animation = openAnimation;
@@ -248,8 +215,10 @@ module.exports = function (background) {
         annotate.closeModal.onclick = function() {
             var toast = _byId('annotate-toast');
             toast.className = 'show';
-            toast.innerHTML = 'Notes set to: ' + '</br>' +
-                _byId('annotate-modal-notes').value;
+            toast.innerHTML = 
+                "<span id='annotate-notes-set'>"
+                    + 'Notes set to: ' + '</br>' + _byId('annotate-modal-notes').value + 
+                '</span>';
             setTimeout(function() {
                 toast.className = toast.className.replace("show", "");
             }, config.toasters.timeout);
@@ -266,10 +235,6 @@ module.exports = function (background) {
         _setEditBehavior();
         var save = new Save(config, log, fs, annotate);
         save.init();
-
-        // LABS-622
-        localStorage.setItem('palette-color', config.baseColor);
-        
         if(capture.canvas) {
             annotate.image.onload = function () {
                 annotate.whole.width = this.width;

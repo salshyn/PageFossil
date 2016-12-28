@@ -14,16 +14,14 @@ new Config(function (config) {
 
     window.config = config;
     window.log = require('loglevel');
-    window.tabHandler = new TabHandler(window);
-    window.fs         = new Filesystem(window);
-    window.blockchain = new Blockchain(window);
+    window.fs = new Filesystem(window);
 
+    window.blockchain = new Blockchain(window.config, window.log, window.fs);
     if (!window.fs.polling) window.fs.pollMainFolder();
     if (!window.blockchain.polling) window.blockchain.monitor();
 
     var log = window.log,
-        tabHandler = window.tabHandler;
-
+        tabHandler = new TabHandler(config, log);
 
     log.setLevel(config.logLevel);
     log.info(config.appName + ' version ' + config.version +
