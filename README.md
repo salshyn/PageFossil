@@ -26,7 +26,7 @@ Save web pages as images and register them on the blockchain.
 
 ## Purpose
 
-PageFossil exists for users who want to save web page content and attest to their view of it at a certain point in time. It helps them do this by saving web pages as images and recording the unique digital fingerprints of those images in the Bitcoin blockchain.
+PageFossil lets you save web pages as images and attest to their existence at a certain point in time by recording their unique digital fingerprints on the Bitcoin blockchain. 
 
 [[top]](#pagefossil-chrome-extension)
 
@@ -46,11 +46,11 @@ PageFossil exists for users who want to save web page content and attest to thei
 
 ### Users
 
-PageFossil is best installed directly from [Chrome's Web Store](https://chrome.google.com/webstore/detail/pagefossil/ilggmabmhaojeblhmhnkccpcbmjkbjbp).
+PageFossil can be installed directly from [Chrome's Web Store](https://chrome.google.com/webstore/detail/pagefossil/ilggmabmhaojeblhmhnkccpcbmjkbjbp).
 
 ### Developers
 
-If you are developing with PageFossil, here are a couple commands to help build it from source:
+If you are developing with PageFossil:
 
 #### Production builds
 
@@ -62,7 +62,7 @@ Debug messages in console + sourcemaps:
 
       npm run build-dev
 
-Currently there's a Windows-only [bug](/../../issues/27) that breaks ``npm run build`` so at present it's best to use only ``build-dev`` on Windows.
+Currently there's a Windows-only [bug](/../../issues/27) that produces broken results from ``npm run build`` so for now please use ``build-dev`` on Windows.
 
 #### Loading into Chrome
 
@@ -72,13 +72,19 @@ The Google Chrome web site provides the [steps for loading the extension into Ch
 
 ## Usage
 
-Until you enable PageFossil's option labeled **Allow access to file URLs**, BROWSE and manual blockchain registration will remain disabled.  The popup should offer a link to help you enable this but you may also access this option by typing ``about:extensions`` into Chrome's location bar or navigating to it via Chrome's global nav menu, ``Window > Extensions``.
+### Local file access
 
-* CAPTURE **copies current web page to a canvas** ~ Displays the canvas in a new tab
-* ADD NOTES **lets you enter some text** ~ Will be encoded in a [QR code](https://en.wikipedia.org/wiki/QR_code) at the bottom (max 256 chars) during SAVE
-* _Click + drag_ **draws a highlight stroke on the canvas** 
-* _Right click_ **lets you select a different highlight color**
-* SAVE **stores the canvas as a PNG image** ~ Metadata is appended as a series of QR codes
+Until you enable PageFossil's option labeled **Allow access to file URLs**, BROWSE and manual blockchain registration will remain disabled.  The extension popup should offer a link to help you enable this but you can also access this option by typing ``about:extensions`` in the location bar or navigating their via ``Window > Extensions``.
+
+### Click the extension icon
+
+Which options appear when you click will depend on the contents of the tab you have in focus:
+
+* CAPTURE **copies current web page to canvas** ~ Displays the canvas in a new tab
+* ADD NOTES **lets you enter text for canvas** (max 256 chars) ~ Will be encoded in a [QR code](https://en.wikipedia.org/wiki/QR_code) at bottom of the image during SAVE
+* _Click + drag_ **draws highlight stroke on canvas** 
+* _Right click_ **lets you select different highlight color**
+* SAVE **stores canvas as a PNG image** ~ Metadata is appended as a series of QR codes
 * BROWSE **lets you review and queue images for blockchain registration**
 
 [[top]](#pagefossil-chrome-extension)
@@ -101,9 +107,9 @@ To manually queue any saved page image for blockchain registration:
 1. Click the curved arrow (➦) in the upper right corner
 1. Click **Queue for blockchain**
 
-After a moment, blockchain status should update to **pending** and you'll have 30 minutes to make a bitcoin payment to the specified Bitcoin address.  
+Blockchain status should update to **pending** with payment details to the right.  You'll have 30 minutes to make a bitcoin payment to the specified Bitcoin address before the registration window expires.  
 
-Shortly after that Bitcoin transaction is **confirmed**, local status for the page image will update accordingly and should link to the relevant Bitcoin transaction where your image hash should be stored after the transaction's [OP_RETURN opcode](https://en.bitcoin.it/wiki/OP_RETURN#Is_storing_data_in_the_blockchain_acceptable.3F). 
+Shortly after your Bitcoin transaction is **confirmed**, local status for the page image will update accordingly and should link to the relevant Bitcoin transaction where the relevant image hash should be stored after the transaction's [OP_RETURN opcode](https://en.bitcoin.it/wiki/OP_RETURN#Is_storing_data_in_the_blockchain_acceptable.3F). 
 
 ### Blockchain statuses
 
@@ -157,7 +163,7 @@ Keyserver: pgp.mit.edu<br>
 
 ### File URL
 
-BROWSE is enabled via the [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) corresponding to your [Chrome downloads folder](https://support.google.com/chrome/answer/95759?co=GENIE.Platform%3DDesktop&hl=en).  Since your downloads folder can reside almost anywhere on your device, we scope a [wildcard permission](/build/manifest.json#L29) for local file access.  If you do not want to allow this permission but do want to continue to use PageFossil's page saving feature, leave _Allow access to file URLs_ unchecked.  Your images will still save as expected but as mentioned above you won't have access to BROWSE or per-image blockchain registration.
+BROWSE is enabled via the [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) corresponding to your [Chrome downloads folder](https://support.google.com/chrome/answer/95759?co=GENIE.Platform%3DDesktop&hl=en).  Since your downloads folder can reside almost anywhere on your device, we scope a [wildcard permission](/build/manifest.json#L29) for local file access.  If you don't want to allow this permission but do want to continue to use PageFossil's page saving feature, leave _Allow access to file URLs_ unchecked.  Your images will still save as expected but as mentioned above you won't have access to BROWSE or per-image blockchain registration.
 
 [[top]](#pagefossil-chrome-extension)
 

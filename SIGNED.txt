@@ -49,16 +49,16 @@ build/src/view.js                                                               
 CHANGES.md                                                                       4.0K       dd8abe2f6a588526c07af05a1329ee9f67fbe7822687350e38499d6e0ee29311
 LICENSE                                                                          4.0K       a9ce9b0a16e6ac264efffbb68b62e8f2276d512b6e40b00cd2eb002b63114455
 package.json                                                                     4.0K       3819c79ffb927cdc584e6ab091c4a4336f1fb00b44c92f5ee522e87efa0ff904
-README.md                                                                        12K        ab59cd585de6e4f9a9be62b8526c0ea8bcbf29530b8b8d5f0b96e0c74da12b59
+README.md                                                                        12K        d45d3e15b121fe10f9a6d12edc9f1618cb4734c619a167ced1798c7078196b22
 -----BEGIN PGP SIGNATURE-----
 Version: Keybase OpenPGP v2.0.61
 Comment: https://keybase.io/crypto
 
-wsBcBAABCgAGBQJYY2uTAAoJEFXbw7aEigbJXQkH/2X4ee8YjhOm9NAxKEfwVK2y
-Pur+NY1Jpkf/UYzGpWRo+nMr7H++ne3u11Ij2hEbam1PYVbIGKL/PecvDD7PZEy4
-OWrI0dSlyUnD1HUPgh0N9PP45hVV74LbTFwxPA8N8+msH9cRXg5jmvCopBhDu0K+
-RnCemwUmj6wlODor5kTE5siyqbbq7LCKbn2QqF+M4Hp05D/qqcte2IISU+EMDcI5
-EtR08AwLInbNmet25Bm8oa5tD+5pqgIZW83aJpP7yXzFuBEt/2oV0JHjMRCm0PVy
-e1p5Mvyexh9LN/VUXsVB1I6xpwsefeZVeTHCx8bXgwaH2zYW+X8Y8c5JRhRxmqs=
-=oPeW
+wsBcBAABCgAGBQJYY/yFAAoJEFXbw7aEigbJW4gH/i04GhxwTuL6VUwvzuWqhQhI
+uiWurufZsbLpKzlEYnEGfZtKxW4aobohpDM+gkWHtNKUiQQ3kIEOTvRUbHNP2FiO
+QgPfpsen0AcjcFzZrgqyBKDVrnmK1A7GkqGqSeqydTt3IwgF9KMZcvgqL4UjEL+9
+8LAf2MvMxI4JC/VS4neKXzqq4NJnmHvYkWHu40TqVotl9UJQfJDBT17+5BNTKS3/
+P3+49z4himzASrQzH8oj+/hjcwem4iigGg6okfrH3MPz6xKwtdoGVaDrsl4LPaWP
+qbzk4kxReP4Gc44uG2uO8JrvYWg9IEzNMPpEMOJqvXLXtNcl92U9uR/RcIAd4pQ=
+=q9W9
 -----END PGP SIGNATURE-----
