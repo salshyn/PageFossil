@@ -26,7 +26,7 @@ Save web pages as images and register them on the blockchain.
 
 ## Purpose
 
-PageFossil lets the user save web pages as images and attest to possession of those images by time-stamping their unique digital fingerprints on the Bitcoin blockchain.
+PageFossil exist so the user can save web pages as images and attest to possession of those images by recording their unique digital fingerprints in the Bitcoin blockchain.
 
 [[top]](#pagefossil-chrome-extension)
 
@@ -72,7 +72,7 @@ The Google Chrome web site provides the [steps for loading the extension into Ch
 
 ## Usage
 
-To use all features you need to navigate to Chrome's list of Extensions and check the box next to PageFossil's option labeled **Allow access to file URLs** option.  The extension should prompt you to do this but if you choose not to, the extension will still partially function.  CAPTURE, ADD NOTES, the highlighter, SAVE, etc will work fine but BROWSE and manual blockchain registration will be disabled.
+Until you enable PageFossil's option labeled **Allow access to file URLs**, BROWSE and manual blockchain registration will remain disabled.  The popup should offer a link to help you enable this but you may also access this option by typing ``about:extensions`` into Chrome's location bar or navigating to it via Chrome's global nav menu, ``Window > Extensions``.
 
 * CAPTURE **copies current web page to a canvas** ~ Displays the canvas in a new tab
 * ADD NOTES **lets you enter some text** ~ Will be encoded in a [QR code](https://en.wikipedia.org/wiki/QR_code) at the bottom (max 256 chars) during SAVE
@@ -107,7 +107,7 @@ Shortly after that Bitcoin transaction is **confirmed**, local status for the pa
 
 ### Blockchain statuses
 
-Blockchain registration statuses are queried and **updated every five minutes**. 
+Blockchain registration statuses are queried and **updated every five minutes**.
 
 * **none** - No blockchain activity in relation to this page
 * **pending** - Image hash has been queued with [Proof of Existence](https://www.proofofexistence.com)
@@ -157,7 +157,7 @@ Keyserver: pgp.mit.edu<br>
 
 ### File URL
 
-BROWSE is enabled via the [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) corresponding to your [Chrome downloads folder](https://support.google.com/chrome/answer/95759?co=GENIE.Platform%3DDesktop&hl=en).  Since your downloads folder can reside almost anywhere on your device, we scope a [wildcard permission](/build/manifest.json#L29) for local file access.  If you do not want to allow this permission but do want to continue to use PageFossil's page saving feature, leave _Allow access to file URLs_ unchecked.  Your images will still save as expected but you won't have access to BROWSE or per-image blockchain registration.
+BROWSE is enabled via the [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) corresponding to your [Chrome downloads folder](https://support.google.com/chrome/answer/95759?co=GENIE.Platform%3DDesktop&hl=en).  Since your downloads folder can reside almost anywhere on your device, we scope a [wildcard permission](/build/manifest.json#L29) for local file access.  If you do not want to allow this permission but do want to continue to use PageFossil's page saving feature, leave _Allow access to file URLs_ unchecked.  Your images will still save as expected but as mentioned above you won't have access to BROWSE or per-image blockchain registration.
 
 [[top]](#pagefossil-chrome-extension)
 
