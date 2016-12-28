@@ -2,18 +2,21 @@ var Capture = require('./capture.js');
 
 module.exports = function (background) {
 
- var config = background.config,
-     log = background.log;
+    var config = background.config,
+        log = background.log;
 
- function _checkFileURIPerms() {
-     chrome.extension.isAllowedFileSchemeAccess(function (isAllowed) {
-         if (isAllowed) {
-             if (popup.tab.url.indexOf(config.imagesView) < 0) {
-                 popup.images.style.display = 'block';
-                }
+    function _checkFileURIPerms() {
+        chrome.extension.isAllowedFileSchemeAccess(function (isAllowed) {
+            if (isAllowed) {
+                if (popup.tab.url.indexOf(config.imagesView) < 0)
+                    popup.images.style.display = 'block';
             }
-            else
+            else {
                 popup.images.style.display = 'none';
+                popup.noimagesText.style = 'font-size:80%';
+                popup.noimagesText.innerHTML = '(Click to configure BROWSE permissions)';
+                popup.noimages.style.display = 'block';
+            }
         });
     }
  
@@ -40,6 +43,8 @@ module.exports = function (background) {
         popup.capture = _byId('capture-page');
         popup.close = _byId('close-images');
         popup.images = _byId('view-images');
+        popup.noimages = _byId('noview-images');
+        popup.noimagesText = _byId('noview-text');
         popup.saveImage = _byId('save-image');
         popup.tab = tab;
         var tab = popup.tab;
@@ -75,6 +80,9 @@ module.exports = function (background) {
         };
         popup.images.onclick = function () {
             _sendMessage('viewImages', {fromTab: tab.id});
+        };
+        popup.noimages.onclick = function () {
+            _sendMessage('showExtension', {fromTab: tab.id});
         };
         popup.saveImage.onclick = function () {
             _sendMessage('saveImage', {fromTab: tab.id});

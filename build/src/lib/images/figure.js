@@ -116,7 +116,11 @@ module.exports = function (background, gallery) {
                         pswp.blockchain.price, pswp.blockchain.address);
                     payStatus = pswp.blockchain.status;
                 }
-                else if (pswp.blockchain && pswp.blockchain.tx) {
+                else if (
+                    (pswp.blockchain.status === config.blockchain.statuses.CONFIRMED)
+                        ||
+                    (pswp.blockchain.status === config.blockchain.statuses.UNCONFIRMED)
+                ) {
                     payStatus = '<a target="_blank" href="' + config.blockchain.explorerURL +
                         pswp.blockchain.tx + '">' + pswp.blockchain.status +
                         '</a>';

@@ -57,7 +57,7 @@ module.exports = function (background) {
         for (var i=0; i <= figures.length - 1; i++) {
            var id = figures[i],
             figure = storage[figures[i]];
-            log.debug('image ID from cache: ' + id);
+            // log.debug('image ID from cache: ' + id);
             if (figure.blockchain &&
                 figure.blockchain.status) {
                 var b = figure.blockchain,
