@@ -149,6 +149,14 @@ new Config(function (config) {
                 if (msg.content.fromTab)
                     window.page2image = msg.content.fromTab;
             },
+            showExtension: function () {
+                chrome.tabs.create({
+                    url: 'chrome://extensions/?id=' + chrome.runtime.id
+                }, function (tab) {
+                    alert('Please enable ' + config.appName +
+                        "'s Allow access to file URLs option.");
+                });
+            },
             viewImages: function () {
                 tabHandler.handleImages(false);
             }
