@@ -26,7 +26,7 @@ Save web pages as images and register them on the blockchain.
 
 ## Purpose
 
-PageFossil exists for users that want to save web page content and attest to their view of it at a certain point in time.  Pagefossil helps them do this by saving web pages as images and recording the unique digital fingerprints of those images within the Bitcoin blockchain.
+PageFossil exists for users who want to save web page content and attest to their view of it at a certain point in time. It helps them do this by saving web pages as images and recording the unique digital fingerprints of those images within the Bitcoin blockchain.
 
 [[top]](#pagefossil-chrome-extension)
 
