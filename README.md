@@ -4,10 +4,10 @@ Save web pages as images and register them on the blockchain.
 
   * [Purpose](#purpose)
   * [Prior art](#prior-art)
-  * [Usage](#usage)
   * [Installation](#installation)
     * [Users](#users)
     * [Developers](#developers)
+  * [Usage](#usage)
   * [Tested platforms](#tested-platforms)
   * [Blockchain option](#blockchain-option)
   * [Symbolic links](#symbolic-links)
@@ -44,13 +44,13 @@ PageFossil lets the user save web pages as images and attest to possession of th
 
 ## Installation
 
-### Most users
+### Users
 
-To install PageFossil just visit its home in the [Chrome Web Store](https://chrome.google.com/webstore/detail/pagefossil/ilggmabmhaojeblhmhnkccpcbmjkbjbp) and click. 
+PageFossil is best installed directly from [Chrome's Web Store](https://chrome.google.com/webstore/detail/pagefossil/ilggmabmhaojeblhmhnkccpcbmjkbjbp).
 
 ### Developers
 
-If you are developing with PageFossil you can build it from source using one of these methods:
+If you are developing with PageFossil, here are a couple to commands to help build it from source:
 
 #### Production builds
 
@@ -62,7 +62,7 @@ Debug messages in console + sourcemaps:
 
       npm run build-dev
 
-Currently there's a bug in Windows' ``npm run build`` so at present please use ``build-dev`` on Windows.
+Currently there's a Windows-only [bug](/../../issues/27) that breaks ``npm run build`` so at present it's best to use only ``build-dev`` on Windows.
 
 #### Loading into Chrome
 
@@ -72,7 +72,7 @@ The Google Chrome web site provides the [steps for loading the extension into Ch
 
 ## Usage
 
-To use all PageFossil features you'll first need to navigate to Chrome's list of Extensions and check the box next to PageFossil's **Allow access to file URLs** option.  The extension is configured to prompt you to do this after installation.  If you choose note to enable this the extension will still function but BROWSE and manual blockchain registration will be disabled.
+To use all features you need to navigate to Chrome's list of Extensions and check the box next to PageFossil's option labeled **Allow access to file URLs** option.  The extension should prompt you to do this but if you choose not to, the extension will still partially function.  CAPTURE, ADD NOTES, the highlighter, SAVE, etc will work fine but BROWSE and manual blockchain registration will be disabled.
 
 * CAPTURE **copies current web page to a canvas** ~ Displays the canvas in a new tab
 * ADD NOTES **lets you enter some text** ~ Will be encoded in a [QR code](https://en.wikipedia.org/wiki/QR_code) at the bottom (max 256 chars) during SAVE
@@ -112,8 +112,6 @@ Blockchain registration statuses are queried and **updated every five minutes**.
 * **none** - No blockchain activity in relation to this page
 * **pending** - Image hash has been queued with [Proof of Existence](https://www.proofofexistence.com)
 * **confirmed** - Image hash is registered on the Bitcoin blockchain 
-
-### Change default behavior
 
 Visit the extension's Options menu and locate the **Blockchain** section to alter registration queueing behavior:
 
