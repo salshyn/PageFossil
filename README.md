@@ -5,11 +5,9 @@ Save web pages as images and register them on the blockchain.
   * [Purpose](#purpose)
   * [Prior art](#prior-art)
   * [Usage](#usage)
-  * [Install](#install)
-    * [Build](#build)
-      * [Production](#production)
-      * [Development](#development)
-    * [Loading into Chrome](#loading-into-chrome)
+  * [Installation](#installation)
+    * [Users](#users)
+    * [Developers](#developers)
   * [Tested platforms](#tested-platforms)
   * [Blockchain option](#blockchain-option)
   * [Symbolic links](#symbolic-links)
@@ -28,7 +26,7 @@ Save web pages as images and register them on the blockchain.
 
 ## Purpose
 
-PageFossil lets the user save a web page as an image and attest to possession of the image by timestamping its existence on the blockchain.
+PageFossil lets the user save web pages as images and attest to possession of those images by time-stamping their unique digital fingerprints on the Bitcoin blockchain.
 
 [[top]](#pagefossil-chrome-extension)
 
@@ -44,7 +42,37 @@ PageFossil lets the user save a web page as an image and attest to possession of
 
 [[top]](#pagefossil-chrome-extension)
 
+## Installation
+
+### Most users
+
+To install PageFossil just visit its home in the [Chrome Web Store](https://chrome.google.com/webstore/detail/pagefossil/ilggmabmhaojeblhmhnkccpcbmjkbjbp) and click. 
+
+### Developers
+
+If you are developing with PageFossil you can build it from source using one of these methods:
+
+#### Production builds
+
+      npm run build
+
+#### Development builds
+
+Debug messages in console + sourcemaps:
+
+      npm run build-dev
+
+Currently there's a bug in Windows' ``npm run build`` so at present please use ``build-dev`` on Windows.
+
+#### Loading into Chrome
+
+The Google Chrome web site provides the [steps for loading the extension into Chrome](https://developer.chrome.com/extensions/getstarted#unpacked) in Developer mode.
+
+[[top]](#pagefossil-chrome-extension)
+
 ## Usage
+
+To use all PageFossil features you'll first need to navigate to Chrome's list of Extensions and check the box next to PageFossil's **Allow access to file URLs** option.  The extension is configured to prompt you to do this after installation.  If you choose note to enable this the extension will still function but BROWSE and manual blockchain registration will be disabled.
 
 * CAPTURE **copies current web page to a canvas** ~ Displays the canvas in a new tab
 * ADD NOTES **lets you enter some text** ~ Will be encoded in a [QR code](https://en.wikipedia.org/wiki/QR_code) at the bottom (max 256 chars) during SAVE
@@ -52,28 +80,6 @@ PageFossil lets the user save a web page as an image and attest to possession of
 * _Right click_ **lets you select a different highlight color**
 * SAVE **stores the canvas as a PNG image** ~ Metadata is appended as a series of QR codes
 * BROWSE **lets you review and queue images for blockchain registration**
-
-[[top]](#pagefossil-chrome-extension)
-
-## Install
-
-### Build
-
-#### Production
-
-      npm run build
-
-#### Development
-
-Debug messages in console + sourcemaps:
-
-      npm run build-dev
-
-Currently there is a bug in the Windows run of ``build`` so at present please use ``build-dev`` on this platform.
-
-### Loading into Chrome
-
-The Google Chrome web site provides the [steps for loading the extension into Chrome](https://developer.chrome.com/extensions/getstarted#unpacked).
 
 [[top]](#pagefossil-chrome-extension)
 
@@ -153,19 +159,7 @@ Keyserver: pgp.mit.edu<br>
 
 ### File URL
 
-By default the user is able to BROWSE the PageFossil subfolder from a browser tab.  This feature operates by accessing a [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) corresponding to the user's [Chrome downloads folder](https://support.google.com/chrome/answer/95759?co=GENIE.Platform%3DDesktop&hl=en) which despite being one folder can reside almost anywhere and must therefore be scoped as a [wildcard permission](build/manifest.json#L35).  
-
-If you do not want to allow this permission but do want to continue to use PageFossil's page saving feature, visit ``chrome://extensions/`` and uncheck _Allow access to file URLs_.  Your images will still save as expected but you won't have access to BROWSE.
-
-You could also consider editing ``manifest.json`` yourself to reflect permissions only for your specific Download directory, then rebuilding the extension, e.g. change:
-
-     "file:///*/*",
-
-To something like:
-
-    "file:///Users/<myuser>/Downloads/*",
-
-Then run ``npm run build`` again before loading the extension.
+BROWSE is enabled via the [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) corresponding to your [Chrome downloads folder](https://support.google.com/chrome/answer/95759?co=GENIE.Platform%3DDesktop&hl=en).  Since your downloads folder can reside almost anywhere on your device, we scope a [wildcard permission](/build/manifest.json#L29) for local file access.  If you do not want to allow this permission but do want to continue to use PageFossil's page saving feature, leave _Allow access to file URLs_ unchecked.  Your images will still save as expected but you won't have access to BROWSE or per-image blockchain registration.
 
 [[top]](#pagefossil-chrome-extension)
 
