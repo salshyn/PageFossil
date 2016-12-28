@@ -8,7 +8,7 @@ Add missing short_name and a couple .gitignore entries.
 
 ## 2016-12-27  Release 0.1.2
 
-Image detail with blockchain status "confirm" now correctly includes hyperlink to the blockchain transaction.
-Popup menu now directs the user to enable "Allow access to file URLs" so that BROWSE-related features will work.
+Blockchain status "confirm" now correctly includes hyperlink in Image detail.
+Popup directs user to enable "Allow access to file URLs" so BROWSE will work.
 Updated package description.
 Updated README.
