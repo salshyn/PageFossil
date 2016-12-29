@@ -8,7 +8,7 @@ module.exports = function (background) {
     function _checkFileURIPerms() {
         chrome.extension.isAllowedFileSchemeAccess(function (isAllowed) {
             if (isAllowed) {
-                if (popup.tab.url.indexOf(config.imagesView) < 0)
+                if (!popup.tab || popup.tab.url.indexOf(config.imagesView) < 0)
                     popup.images.style.display = 'block';
             }
             else {
@@ -35,7 +35,11 @@ module.exports = function (background) {
         popup = this;
 
     popup.init = function (tab) { 
- 
+
+        if (!tab) { // empty tab
+          tab = {};
+          tab.id = 0;
+        } 
         popup.editNotes = _byId('edit-notes');
         popup.extensionSettings = _byId('extension-settings');
         popup.footer = _byId('popup-footer');
@@ -92,13 +96,15 @@ module.exports = function (background) {
             _sendMessage('editNotes', {fromTab: tab.id});
         };
         popup.check();
-        _checkFileURIPerms();
     };
 
     popup.check = function () {
-
+        // empty tab is in focus
+        if (!popup.tab) {
+            _checkFileURIPerms();
+        }
         // view-images should show Close
-        if (popup.tab.url.indexOf(config.imagesView) >= 0) {
+        else if (popup.tab.url.indexOf(config.imagesView) >= 0) {
             // document.body.style.height = '20px;'
             popup.capture.style.display = 'none';
             popup.close.style.display = 'block';
