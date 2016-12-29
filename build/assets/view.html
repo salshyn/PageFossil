@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="photoswipe.css"/>
     <link rel="stylesheet" href="default-skin/default-skin.css"/>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css" id="style"/>
+    <link rel="stylesheet" href="style-invert.css" id="style-invert"/>
     <meta charset="UTF-8"/>
     <script src="js/view.js"></script>
   </head>
@@ -156,9 +157,17 @@
             <span>Never queue</span><span id="blockchain-never-saved"></span><br>
           </div>
         </div>
+        <div class="options-row">
+          <div class="options-left">
+            <span>Switch Color</span><br>
+          </div>
+          <div class="options-right">
+            <input type="checkbox" name="invert" id="invert"/>
+            <span>Invert Colors</span><br>
+          </div>
+        </div>
       </div>
     </div>
-
     <div id="loading-div-background">
       <div id="loading-div">
         <div style="position: relative; left: 0; top: 0;">

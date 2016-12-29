@@ -29,12 +29,12 @@
     min-width: 930px;
 }
 #annotate-close-modal {
-    color: ___BASE_COLOR___;
+    color: ___COMPLIMENT_COLOR___;
 }
 #annotate-container {
     position: absolute;
-    border: 1px solid: ___COMPLIMENT_COLOR___;
-    background: ___COMPLIMENT_COLOR___ url('images/annotate-background.png') repeat;
+    border: 1px solid: ___BASE_COLOR___;
+    background: ___BASE_COLOR___ url('images/annotate-background.png') repeat;
     overflow: auto;
 }
 #annotate-container .xHandle {
@@ -42,24 +42,24 @@
     display: block;
     height: 17px;
     width: 17px;
-    background: ___BASE_COLOR___;
-    color: ___COMPLIMENT_COLOR___;
+    background: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
     line-height: 15px;
     font-size: 12px;
     border-radius: 15px;
     text-align: center;
-    border 1px solid ___COMPLIMENT_COLOR___;
+    border 1px solid ___BASE_COLOR___;
     opacity: 0.7;
     box-sizing: border-box;
     font-weight: bold; 
 }
 #annotate-grapheme-counter {
-    color: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
     font-size: 75%;
     padding-left: 5px;
 }
 #annotate-notes-set {
-    color: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
 }
 #annotate-header {
     position: fixed;
@@ -78,7 +78,7 @@
 }
 .annotate-modal-title {
     border-bottom: 1px solid #CCC;
-    color: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
     font-size: 18px;
     padding: 5px;
 }
@@ -96,12 +96,10 @@
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
-    background-color: ___BASE_COLOR___;
-    color: ___COMPLIMENT_COLOR___;
+    background-color: ___COMPLIMENT_COLOR___;
     color: #fff;
     text-align: center;
     border-radius: 2px;
-    border-color: ___COMPLIMENT_COLOR___;
     padding: 16px;
     position: fixed;
     z-index: 1;
@@ -117,10 +115,10 @@
     position: fixed;
     width: 82px;
     height: 55px;
-    color: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
     padding: 5px;
-    background: ___BASE_COLOR___;
-    border: 1px solid ___COMPLIMENT_COLOR___;
+    background: ___COMPLIMENT_COLOR___;
+    border: 1px solid ___BASE_COLOR___;
     z-index: 1000;
     display: none;
 }
@@ -142,13 +140,13 @@
     to {top: 0; opacity: 0;}
 }
 body {
-    color: ___BASE_COLOR___;
+    color: ___COMPLIMENT_COLOR___;
     background-color: #ebebeb;
     font-family: 'Open Sans Condensed';
 }
 #body {
-    background: ___BASE_COLOR___;
-    color: ___COMPLIMENT_COLOR___;
+    background: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
     font-size: 14px;
 }
 #body p {
@@ -187,7 +185,7 @@ body {
 
 .extension-input {
     border-radius: 3px;
-    background: ___COMPLIMENT_COLOR___;
+    background: ___BASE_COLOR___;
     height: 25px;
     position: relative;
     margin-top: 15px;
@@ -214,33 +212,30 @@ body {
     to { margin: 15% auto; }
 }
 
-.pswp__caption a {
-    color: ___COMPLIMENT_COLOR___;
-}
 .images-showroom {
 }
 .images-showroom a {
-    color: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
 }
 .images-showroom img {
-    border: 1px solid ___COMPLIMENT_COLOR___;
+    border: 1px solid ___BASE_COLOR___;
     float: left;
     margin: 5px;
 }
 .images-showroom figure {
-    border: 1px solid ___COMPLIMENT_COLOR___;
+    border: 1px solid ___BASE_COLOR___;
     clear: both;
     height: 100%;
     min-height: 165px;
 }
 .images-showroom figure:hover {
-    border: 1px solid ___COMPLIMENT_COLOR___;
-    background-color: ___COMPLIMENT_COLOR___;
-    color: ___BASE_COLOR___;
+    border: 1px solid ___BASE_COLOR___;
+    background-color: ___BASE_COLOR___;
+    color: ___COMPLIMENT_COLOR___;
     cursor: pointer;
 }
 .images-showroom figure:hover a {
-    color: ___BASE_COLOR___;
+    color: ___COMPLIMENT_COLOR___;
     cursor: pointer;
 }
 .images-showroom figcaption {
@@ -249,13 +244,13 @@ body {
 #images-logo {
     width: 16px;
     float: right;
-    color: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
 }
 
 #loading-div {
     width: 400px;
     height: 300px;
-    background-color: ___BASE_COLOR___;
+    background-color: ___COMPLIMENT_COLOR___;
     text-align:center;
     opacity:0.7;
     position:absolute;
@@ -277,13 +272,13 @@ body {
     z-index: 9000;
 }
 #loading-logo {
-    color: ___COMPLIMENT_COLOR___;
-    filter: invert(___VISIBLE_YES___);
+    color: ___BASE_COLOR___;
     height:80px;
+    filter: invert(___VISIBLE_NO___);
 }
 
 #menu-title {
-    color: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
     font-weight: bold;
     text-align: right;
     font-size: 12px;
@@ -292,13 +287,13 @@ body {
 }
 
 .modal-box {
-    background-color: ___BASE_COLOR___;
+    background-color: ___COMPLIMENT_COLOR___;
     border: 1px solid white;
     margin: 15% auto; 
     padding: 20px;
 }
 .modal-content {
-    color: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
     padding: 5px;
     font-size: 12px;
 }
@@ -349,14 +344,14 @@ body {
 }
 .popup-nav ul li a {
     display: block;
-    color: ___COMPLIMENT_COLOR___;
+    color: ___BASE_COLOR___;
     line-height: 34px;
     text-decoration: none;
     font-size: 14px;
 }
 .popup-nav ul li a:hover {
-    background: ___COMPLIMENT_COLOR___;
-    color: ___BASE_COLOR___;
+    background: ___BASE_COLOR___;
+    color: ___COMPLIMENT_COLOR___;
 }
 .popup-nav ul li .icon {
     cursor: pointer;
@@ -388,48 +383,8 @@ body {
     background-size: 24px 24px;
 }
 
-.palette-general {
-    float: left;
-    margin: 3px;
-    border-radius: 5px;
-    width: 25px;
-    height: 25px;
-}
-.palette-selected {
-    outline: 0px solid ___COMPLIMENT_COLOR___;
-    box-shadow: 0 0 0 1.5px ___COMPLIMENT_COLOR___;
-}
-#annotate-palette {
-    position: fixed;
-    width: auto;
-    height: auto;
-    color: ___COMPLIMENT_COLOR___;
-    padding: 5px;
-    border-radius: 8px;
-    background: ___BASE_COLOR___;
-    border: 1px solid ___COMPLIMENT_COLOR___;
-    z-index: 1000;
-    display: none;
-}
-#annotate-palette-close {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    position: absolute;
-    top: 0px;
-    right: -5px;
-}
-#palette-up {
-    width: inherit;
-    margin-left: 15px;
-}
-#palette-down {
-    margin: auto;
-    width: 50%;
-    width: inherit;
-}
 #pswp__background-override {
-    background: ___BASE_COLOR___
+    background: ___COMPLIMENT_COLOR___
 }
 a.pswp__share--blockchain:before {
     content: '';

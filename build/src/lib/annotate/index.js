@@ -7,6 +7,15 @@
 
 module.exports = function (background) {
 
+    // LABS-602
+    if (localStorage.getItem('css') == 'style-invert') {
+        document.getElementById('style').disabled = true;
+        document.getElementById('style-invert').disabled = false;
+    } else {
+        document.getElementById('style').disabled = false;
+        document.getElementById('style-invert').disabled = true;
+    }
+
     var annotate = this,
         blockchain = background.blockchain,
         _byId = document.getElementById.bind(document),
@@ -248,8 +257,10 @@ module.exports = function (background) {
         annotate.closeModal.onclick = function() {
             var toast = _byId('annotate-toast');
             toast.className = 'show';
-            toast.innerHTML = 'Notes set to: ' + '</br>' +
-                _byId('annotate-modal-notes').value;
+            toast.innerHTML = 
+                "<span id='annotate-notes-set'>"
+                + 'Notes set to: ' + '</br>' + _byId('annotate-modal-notes').value
+                + '</span>';
             setTimeout(function() {
                 toast.className = toast.className.replace("show", "");
             }, config.toasters.timeout);

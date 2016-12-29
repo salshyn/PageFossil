@@ -290,16 +290,17 @@ async.series([
         });
     },
     
-    // Generate custom sylesheet
+    // Generate custom sylesheet - style.css
     function(callback) {
         var cssContent = '',
-            cssTemplateReader = require('readline').createInterface({
-                input: fs.createReadStream(cwd + cssTemplate)
-            }),
-            styleOptions = {
-                '___BASE_COLOR___' : config.baseColor,
-                '___COMPLIMENT_COLOR___' : config.complimentColor
-            };
+        cssTemplateReader = require('readline').createInterface({
+            input: fs.createReadStream(cwd + cssTemplate)
+        }),
+        styleOptions = {
+            '___BASE_COLOR___' : config.baseColor,
+            '___COMPLIMENT_COLOR___' : config.complimentColor,
+            '___VISIBLE_YES___' : config.visibleYes
+        };
         cssTemplateReader.on('line', function (line) {
             var matches = line.match(/(___.+___)/);
             if (matches && matches[1]) {
@@ -310,12 +311,39 @@ async.series([
         cssTemplateReader.on('close', function () {
             print('Writing stylesheet');
             fs.writeFile(cwd + extensionsFolder + 'style.css', cssContent,
-                'utf8', function () {
+            'utf8', function () {
                 console.log('done.');
                 callback();
             });
         });
-    
+    },
+
+    // Generate custom sylesheet - style-invert.css
+    function(callback) {
+        var cssContent = '',
+        cssTemplateReader = require('readline').createInterface({
+            input: fs.createReadStream(cwd + cssTemplate)
+        }),
+        styleOptions = {
+            '___BASE_COLOR___' : config.complimentColor,
+            '___COMPLIMENT_COLOR___' : config.baseColor,
+            '___VISIBLE_NO___' : config.visibleNo
+        };
+        cssTemplateReader.on('line', function (line) {
+            var matches = line.match(/(___.+___)/);
+            if (matches && matches[1]) {
+                line = line.replace(matches[1], styleOptions[matches[1]]);
+            }
+            cssContent = cssContent + line + "\n";
+        });
+        cssTemplateReader.on('close', function () {
+            print('Writing stylesheet');
+            fs.writeFile(cwd + extensionsFolder + 'style-invert.css', cssContent,
+            'utf8', function () {
+                console.log('done.');
+                callback();
+            });
+        });
     },
 
     // Create download tracer file.
