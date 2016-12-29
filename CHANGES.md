@@ -12,3 +12,9 @@ Blockchain status "confirm" now correctly includes hyperlink in Image detail.
 Popup directs user to enable "Allow access to file URLs" so BROWSE will work.
 Updated package description.
 Updated README.
+
+## 2016-12-29  Release 0.1.3
+
+Handled case where tracer file not removed.
+Empty tabs now show BROWSE option.
+Trapped error when image tab id from local storage is stale.

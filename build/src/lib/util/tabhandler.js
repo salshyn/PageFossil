@@ -77,6 +77,8 @@ module.exports = function (background) {
         if (tabHandler.imagesTabId()) {
             var id = tabHandler.imagesTabId();
             chrome.tabs.get(id, function (tab) {
+                if (chrome.runtime.lastError)
+                    log.debug('Ignoring stale images tab in local storage.');
                 if (tab && tab.id == tabHandler.imagesTabId()) {
                     cb(true);
                 }

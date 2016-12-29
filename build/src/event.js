@@ -110,11 +110,14 @@ new Config(function (config) {
                             }
                             localStorage.downloadTracerId = items[0].id;
                             window.fs.searching = false;
-                            chrome.downloads.removeFile(items[0].id,
-                                function () {
-                                    log.debug('Folder finder file removed.');
+                            chrome.downloads.removeFile(items[0].id, function () {
+                                if (chrome.runtime.lastError) {
+                                    log.error(chrome.runtime.lastError.message)
                                 }
-                            );
+                                else {
+                                    // log.debug('Folder finder file removed.');
+                                }
+                            });
                         }
                     });
                 }, config.timers.tracerDelay);
