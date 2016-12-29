@@ -9,9 +9,22 @@ module.exports = function (background) {
         fsOptions = Object.keys(fsDetails),
         log = background.log,
         mainFolderKey = config.downloads.folderName,
+        pinned = _byId('pinned'),
         options = this;
     
     options.init = function (tab) {
+
+        // issue_18
+        pinned.addEventListener('change', function(event) {
+            localStorage.setItem('pinned', 'yes');
+            if (!event.target.checked) {
+                localStorage.setItem('pinned', 'no');
+            }
+        });
+        pinned.checked = true;
+        if (localStorage.getItem('pinned') == 'no') {
+            pinned.checked = false;
+        }
 
         if (localStorage.getItem(mainFolderKey)) {
             downloadsFolder.innerHTML = localStorage.getItem(mainFolderKey);
