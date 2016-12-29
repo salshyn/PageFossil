@@ -4,7 +4,7 @@ Save web pages as images and register them on the blockchain.
 
   * [Purpose](#purpose)
   * [Prior art](#prior-art)
-  * [Install](#installation)
+  * [Install](#install)
     * [Users](#users)
     * [Developers](#developers)
   * [Usage](#usage)
@@ -26,7 +26,7 @@ Save web pages as images and register them on the blockchain.
 
 ## Purpose
 
-PageFossil exists for users who want to save web page content and attest to their view of it at a certain point in time. It helps them do this by saving web pages as images and recording the unique digital fingerprints of those images within the Bitcoin blockchain.
+PageFossil's purpose is to let you save web pages as images and in so doing, attest to their existence at a certain point in time.  Attestation is done by recording the unique digital fingerprints of your images on the Bitcoin blockchain.
 
 [[top]](#pagefossil-chrome-extension)
 
@@ -62,11 +62,9 @@ Debug messages in console + sourcemaps:
 
       npm run build-dev
 
-Currently there's a Windows-only [bug](/../../issues/27) that breaks ``npm run build`` so at present it's best to use only ``build-dev`` on Windows.
-
 #### Loading into Chrome
 
-The Google Chrome web site provides the [steps for loading the extension into Chrome](https://developer.chrome.com/extensions/getstarted#unpacked) in Developer mode.
+Google has the [steps for loading the extension into Chrome in Developer mode](https://developer.chrome.com/extensions/getstarted#unpacked).
 
 [[top]](#pagefossil-chrome-extension)
 
@@ -103,7 +101,7 @@ To manually queue any saved page image for blockchain registration:
 
 After a moment, blockchain status should update to **pending** and you'll have 30 minutes to make a bitcoin payment to the specified Bitcoin address.  
 
-Shortly after that Bitcoin transaction is **confirmed**, local status for the page image will update accordingly and should link to the relevant Bitcoin transaction where your image hash should be stored after the transaction's [OP_RETURN opcode](https://en.bitcoin.it/wiki/OP_RETURN#Is_storing_data_in_the_blockchain_acceptable.3F). 
+Shortly after the relevant Bitcoin transaction is **confirmed**, local status for the page image will update accordingly and should link to the transaction.  Your image hash should be stored after the transaction's [OP_RETURN opcode](https://en.bitcoin.it/wiki/OP_RETURN#Is_storing_data_in_the_blockchain_acceptable.3F). 
 
 ### Blockchain statuses
 

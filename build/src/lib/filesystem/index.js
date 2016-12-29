@@ -30,13 +30,20 @@ module.exports = function (background) {
                     folderHash = sha256.hash(chromeFolderListing),
                     pageSections = chromeFolderListing.split(new RegExp(
                         RegExp.quote(sourceDivider))),
+                    regex = new RegExp(config.downloads.folderFinder, 'g'),
                     subfolders = [];
                 if (pageSections && pageSections[1]) {
                     var folderList = pageSections[1].replace(/(\r\n|\n|\r)/gm, '');
                     filesystem.folderList = folderList.split(new RegExp(
                         RegExp.quote(fsDetails.itemSuffix)
                     ));
-                    if (filesystem.folderList.length <= 2) { // empty main folder
+                    if (
+                        // empty main folder
+                        (filesystem.folderList.length <= 2) ||
+                        // empty save stale tracer file
+                        ((filesystem.folderList.length === 3) &&
+                        (chromeFolderListing.match(regex)))
+                    ) {
                         filesystem.folderHash = folderHash;
                         filesystem.assets.showNoneFoundMsg();
                     }
@@ -45,11 +52,9 @@ module.exports = function (background) {
                         filesystem.folderHash = folderHash;
                         _examineSubfolders(subfolders);
                     }
-                    /**
                     else {
-                        log.debug('No folder change.');
+                        // log.debug('No folder change.');
                     }
-                    **/
                 }
             }
             catch (err) {
@@ -180,6 +185,8 @@ module.exports = function (background) {
                 filesystem.handler.numPositioned = 0;
             }
             for (var i = 0; i < folders.length; i++) {
+                if (folders[i].name === config.downloads.folderFinder)
+                    continue;
                 filesystem.msg = 'Get subfolder contents: ' + folders[i].name + '.';
                 filesystem.assets.get(folders[i].name);
             }
@@ -253,7 +260,7 @@ module.exports = function (background) {
                     }
                 }
                 else {
-                    // log.debug('Images tab is not open, will not poll.');
+                    // log.debug('Images tab not open, will not poll.');
                     if (filesystem.polling)
                         filesystem.polling = false;
                 }
