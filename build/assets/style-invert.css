@@ -414,3 +414,8 @@ a.pswp__share--blockchain:hover {
     display:none;
     font-size: 18px;
 }
+#message {
+    padding: 15px;
+    display: block;
+    color: ___BASE_COLOR___;
+}
