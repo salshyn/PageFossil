@@ -1,6 +1,5 @@
 var Annotate = require('./lib/annotate'),
-    Images = require('./lib/images'),
-    Options = require('./options.js');
+    Images = require('./lib/images');
 
 chrome.runtime.getBackgroundPage(function (b) {
     function getQueryStringValue (key) {    
@@ -18,8 +17,7 @@ chrome.runtime.getBackgroundPage(function (b) {
     var body = document.getElementById('body'),
         dispatch = {
             annotate: Annotate,
-            images: Images,
-            options: Options
+            images: Images
         },
         v = getQueryStringValue('v'),
         v = (v.split('-'))[1];

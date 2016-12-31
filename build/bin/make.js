@@ -40,6 +40,7 @@ var Config = require('../src/_config-bootstrap.js'),
     extensionsFolder = 'chrome-extensions/',
     manifestTemplate = 'build/manifest.json',
     options = {},
+    optionsFileName = 'build/assets/options.html';
     os = require('os'),
     platform = os.platform(),
     popupFileName = 'build/assets/popup.html',
@@ -91,6 +92,11 @@ var exe = {
             extensionsFolder + '\js" '         + robocopyOptions +
             ' || cmd /c exit / b 0',
         other: 'cp -R "' + cwd + jsFolderName + '" "' + extensionsFolder + '"'
+    },
+    copyOptions: {
+        win32: 'copy "' + cwd + optionsFileName.replace(/\//g,'\\') + '" "' +
+            extensionsFolder + '"',
+        other: 'cp "' + cwd + optionsFileName + '" "' + extensionsFolder + '"'
     },
     copyPopup: {
         win32: 'copy "' + cwd + popupFileName.replace(/\//g,'\\') + '" "' +
@@ -191,6 +197,7 @@ async.series([
     function(callback) {
         var assets = [
             { name: 'view.html', cmd: exe.copyView[platform] },
+            { name: 'options.html', cmd: exe.copyOptions[platform] },
             { name: 'popup.html', cmd: exe.copyPopup[platform] },
             { name: 'js', cmd: exe.copyJS[platform] },
             { name: 'fonts', cmd: exe.copyFonts[platform] },
@@ -252,6 +259,10 @@ async.series([
             'event.js" ' + buildFlags + ' | "' + uglifyBin + '" -c > "' + cwd +
             releaseFolder + 'event.js"';
 
+        compileOptionsString = '"' + browserifyBin + '" "' + cwd + sourceFolder +
+            'options.js" ' + buildFlags + ' | "' + uglifyBin + '" -c > "' + cwd +
+            releaseFolder + 'options.js"';
+
         compilePopupString = '"' + browserifyBin + '" "' + cwd + sourceFolder +
             'popup.js" ' + buildFlags + ' | "' + uglifyBin + '" -c > "' + cwd +
             releaseFolder + 'popup.js"';
@@ -266,6 +277,9 @@ async.series([
             compileEventString = '"' + browserifyBin + '" "' + cwd +
                 sourceFolder + 'event.js" > "' + cwd + releaseFolder +
                 'event.js" ' + buildFlags;
+            compileOptionsString = '"' + browserifyBin + '" "' + cwd +
+                sourceFolder + 'options.js" > "' + cwd + releaseFolder +
+                'options.js" ' + buildFlags;
             compilePopupString = '"' + browserifyBin + '" "' + cwd +
                 sourceFolder + 'popup.js" > "' + cwd + releaseFolder +
                 'popup.js" ' + buildFlags;
@@ -290,16 +304,17 @@ async.series([
         });
     },
     
-    // Generate custom sylesheet
+    // Generate custom sylesheet - style.css
     function(callback) {
         var cssContent = '',
-            cssTemplateReader = require('readline').createInterface({
-                input: fs.createReadStream(cwd + cssTemplate)
-            }),
-            styleOptions = {
-                '___BASE_COLOR___' : config.baseColor,
-                '___COMPLIMENT_COLOR___' : config.complimentColor
-            };
+        cssTemplateReader = require('readline').createInterface({
+            input: fs.createReadStream(cwd + cssTemplate)
+        }),
+        styleOptions = {
+            '___BASE_COLOR___' : config.baseColor,
+            '___COMPLIMENT_COLOR___' : config.complimentColor,
+            '___VISIBLE_YES___' : config.visibleYes
+        };
         cssTemplateReader.on('line', function (line) {
             var matches = line.match(/(___.+___)/);
             if (matches && matches[1]) {
@@ -310,12 +325,39 @@ async.series([
         cssTemplateReader.on('close', function () {
             print('Writing stylesheet');
             fs.writeFile(cwd + extensionsFolder + 'style.css', cssContent,
-                'utf8', function () {
+            'utf8', function () {
                 console.log('done.');
                 callback();
             });
         });
-    
+    },
+
+    // Generate custom sylesheet - style-invert.css
+    function(callback) {
+        var cssContent = '',
+        cssTemplateReader = require('readline').createInterface({
+            input: fs.createReadStream(cwd + cssTemplate)
+        }),
+        styleOptions = {
+            '___BASE_COLOR___' : config.complimentColor,
+            '___COMPLIMENT_COLOR___' : config.baseColor,
+            '___VISIBLE_NO___' : config.visibleNo
+        };
+        cssTemplateReader.on('line', function (line) {
+            var matches = line.match(/(___.+___)/);
+            if (matches && matches[1]) {
+                line = line.replace(matches[1], styleOptions[matches[1]]);
+            }
+            cssContent = cssContent + line + "\n";
+        });
+        cssTemplateReader.on('close', function () {
+            print('Writing stylesheet');
+            fs.writeFile(cwd + extensionsFolder + 'style-invert.css', cssContent,
+            'utf8', function () {
+                console.log('done.');
+                callback();
+            });
+        });
     },
 
     // Create download tracer file.
@@ -340,6 +382,7 @@ async.series([
     function (callback) {
         var browsifiers = [
             {name: 'event', cmd: compileEventString},
+            {name: 'options', cmd: compileOptionsString},
             {name: 'popup', cmd: compilePopupString},
             {name: 'view', cmd: compileViewString}
         ];

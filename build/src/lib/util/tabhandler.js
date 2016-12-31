@@ -29,12 +29,19 @@ module.exports = function (background) {
                 });
             }
             else {
+
+                // issue_18
+                var pinned = true;
+                if (localStorage.getItem('pinned') == 'no') {
+                    pinned = false;
+                }
+
                 chrome.tabs.create(
                     {
                         url: chrome.extension.getURL(config.mainHtml + '?v=' +
                             imagesView),
                         active: true,
-                        pinned: true
+                        pinned: pinned
                     },
                     function (tab) {
                         if (chrome.runtime.lastError) {
