@@ -26,7 +26,7 @@ Save web pages as images and register them on the blockchain.
 
 ## Purpose
 
-PageFossil's purpose is to let you save web pages as images and in so doing, attest to their existence at a certain point in time.  Attestation is done by recording the unique digital fingerprints of your images on the Bitcoin blockchain.
+PageFossil exists so you can save web pages as images and attest to their existence at a certain point in time.  You attest to an image's existence by recording its unique digital fingerprint on the Bitcoin blockchain.
 
 [[top]](#pagefossil-chrome-extension)
 
@@ -50,7 +50,7 @@ PageFossil is best installed directly from [Chrome's Web Store](https://chrome.g
 
 ### Developers
 
-If you are developing with PageFossil, here are a couple to commands to help build it from source:
+If you are developing with PageFossil, here are a couple commands to build from source:
 
 #### Production builds
 
@@ -64,7 +64,7 @@ Debug messages in console + sourcemaps:
 
 #### Loading into Chrome
 
-Google has the [steps for loading the extension into Chrome in Developer mode](https://developer.chrome.com/extensions/getstarted#unpacked).
+Google has [steps for loading extension in Developer mode](https://developer.chrome.com/extensions/getstarted#unpacked).
 
 [[top]](#pagefossil-chrome-extension)
 
@@ -78,6 +78,16 @@ Until you enable PageFossil's option labeled **Allow access to file URLs**, BROW
 * _Right click_ **lets you select a different highlight color**
 * SAVE **stores the canvas as a PNG image** ~ Metadata is appended as a series of QR codes
 * BROWSE **lets you review and queue images for blockchain registration**
+
+### Options
+
+Pagefossil's Options are reachable from ``about:extensions`` or navigating to ``Windows > Extensions`` and finding PageFossil's **Options** link.
+
+* Delay between captures - milliseconds to wait before advancing the page to the next screen for capture.
+* Delay before capture start - milliseconds to wait before starting each capture
+* Blockchain - Whether to queue images for blockchain registration automatically, manually, or never.
+* Auto-pin images tab? - Whether or not to pin the Images tab automatically
+* Invert colors? - Whether or not to reverse the two main colors of the user interface.
 
 [[top]](#pagefossil-chrome-extension)
 
@@ -109,7 +119,9 @@ Blockchain registration statuses are queried and **updated every five minutes**.
 
 * **none** - No blockchain activity in relation to this page
 * **pending** - Image hash has been queued with [Proof of Existence](https://www.proofofexistence.com)
-* **confirmed** - Image hash is registered on the Bitcoin blockchain 
+* **unconfirmed** - Image hash has been submitted to blockchain but is not yet confirmed
+* **confirmed** - Image hash is registered on the blockchain
+* **expired** - Image is greater than 30 minutes old and cannot be submitted for blockchain registration
 
 Visit the extension's Options menu and locate the **Blockchain** section to alter registration queueing behavior:
 

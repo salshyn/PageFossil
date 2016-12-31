@@ -103,7 +103,7 @@
                     elem.style.filter = 'opacity(' + opacity * 100 + '%)';
                 }, 50 );
             },
-            _addXHandle    = function (d, edge) {
+            _addXHandle = function (d, edge) {
                 var textNode = document.createTextNode('\u2716'),
                     xH = pen.history[id].xH;
                 xH.className = 'xHandle';
@@ -144,13 +144,13 @@
                 .getPropertyValue('display'),
             shouldDraw = false;
 
-        if (x > 0 && y > 0 && x < d.width && y < d.height &&
-            display !== 'none') {
-            var mark = parseInt(ctx.getImageData(x, y, 1, 1).data);
-            shouldDraw = false;
+        if (x > 0 && y > 0 && x < d.width && y < d.height && display !== 'none') {
+            var mark = ctx.getImageData(x, y, 1, 1).data;
+            shouldDraw = 0;
             for(var i = 0;i < 4; i++) {
-                if (mark[i] !== 0)
+                if (mark[i] != 0) {
                     shouldDraw=true;
+                }
             }
         }
         if (!shouldDraw) return;

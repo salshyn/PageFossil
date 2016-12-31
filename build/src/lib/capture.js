@@ -1,3 +1,12 @@
+// LABS-602
+if (localStorage.getItem('css') == 'style-invert') {
+    document.getElementById('style').disabled = true;
+    document.getElementById('style-invert').disabled = false;
+} else {
+    document.getElementById('style').disabled = false;
+    document.getElementById('style-invert').disabled = true;
+}
+
 module.exports = function (background, tabId, tabURL, windowId) {
 
     var capture = this,

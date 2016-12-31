@@ -20,9 +20,7 @@
 
 #annotate-section {display: none;}
 #blockchain-section {display: none;}
-#options-section {display: none;}
 #images-section {display: none;}
-#popup-section {display: none;}
 
 #annotate {
     background: #eaeaea;
@@ -58,7 +56,9 @@
     font-size: 75%;
     padding-left: 5px;
 }
-
+#annotate-notes-set {
+    color: ___COMPLIMENT_COLOR___;
+}
 #annotate-header {
     position: fixed;
     top: 0;
@@ -95,9 +95,11 @@
     min-width: 250px;
     margin-left: -125px;
     background-color: ___BASE_COLOR___;
+    color: ___COMPLIMENT_COLOR___;
     color: #fff;
     text-align: center;
     border-radius: 2px;
+    border-color: ___COMPLIMENT_COLOR___;
     padding: 16px;
     position: fixed;
     z-index: 1;
@@ -213,6 +215,9 @@ body {
 .pswp__caption a {
     color: ___COMPLIMENT_COLOR___;
 }
+.pswp__caption__center {
+    color: ___COMPLIMENT_COLOR___
+}
 .images-showroom {
 }
 .images-showroom a {
@@ -243,12 +248,10 @@ body {
     overflow-wrap: break-word;
 }
 #images-logo {
- width: 16px;
- float: right;
- -webkit-filter: invert(1);
- filter: invert(1);
+    width: 16px;
+    float: right;
+    color: ___COMPLIMENT_COLOR___;
 }
-
 
 #loading-div {
     width: 400px;
@@ -275,8 +278,8 @@ body {
     z-index: 9000;
 }
 #loading-logo {
-    -webkit-filter: invert(1);
-    filter: invert(1);
+    color: ___COMPLIMENT_COLOR___;
+    filter: invert(___VISIBLE_YES___);
     height:80px;
 }
 
@@ -456,4 +459,9 @@ a.pswp__share--blockchain:hover {
 #view-images {
     display:none;
     font-size: 18px;
+}
+#message {
+    padding: 15px;
+    display: block;
+    color: ___COMPLIMENT_COLOR___;
 }

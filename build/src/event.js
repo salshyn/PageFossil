@@ -27,7 +27,8 @@ new Config(function (config) {
 
     log.setLevel(config.logLevel);
     log.info(config.appName + ' version ' + config.version +
-        ' loaded @ ' + (new Date()).toString()
+        ' loaded @ ' + (new Date()).toString() + '[errlevel: ' +
+        config.logLevel + ']'
     );
 
     window.annotators = {};
