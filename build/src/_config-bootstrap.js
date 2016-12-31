@@ -20,7 +20,7 @@ module.exports = function (cb) {
             DONE: 4,
             app: app,
             appName: appName,
-            baseColor: '#2f2e2c',
+            baseColor: '#222930',
             blockchain: {
                 defaultPrice: 500000,
                 explorerURL: 'https://www.blocktrail.com/BTC/tx/',
@@ -41,7 +41,7 @@ module.exports = function (cb) {
                 version: 'v1'
             },
             browserActionImg: '/images/browseraction.png',
-            complimentColor: '#f7f2ee',
+            complimentColor: '#4eb1ba',
             configFolder: 'config',
             contentScripts: {
                 annotate: {
@@ -135,6 +135,8 @@ module.exports = function (cb) {
                 timeout: 3000
             },
             version: '___VERSION___', // Set via package.json
+            visibleNo: '0',
+            visibleYes: '1',
             website: 'https://twitter.com/c2folab',
             workerScripts: {
                 qrscan: 'js/vendor/decoder.min.js'

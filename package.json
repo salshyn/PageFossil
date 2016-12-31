@@ -5,7 +5,7 @@
         "url": "https://github.com/c2fo-lab/PageFossil.git"
     },
     "license": "MIT",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "author": "C2FO Innovation Lab",
     "description": "Save web pages as images and register them on the Bitcoin blockchain.",
     "homepage": "https://c2fo-lab.github.io/PageFossil/",

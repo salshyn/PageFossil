@@ -20,7 +20,7 @@
     "name"        : "___NAME___",
     "offline_enabled":true,
     "options_ui": {
-        "page": "___MAINHTML___?v=___NAME___-options",
+        "page": "options.html",
         "chrome_style": true
     },
     "permissions": [

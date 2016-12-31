@@ -62,6 +62,10 @@ module.exports = function (config, log, annotate, edge) {
 
     mouse.listen = function() {
         document.body.addEventListener('mousedown',function (e) {
+            if ((e.target.id == 'annotate-palette-close') ||
+               (e.target.id == 'annotate-close-modal')) {
+                return false;
+            }
             if (
                 parseInt(e.button) === 0 &&
                 (e.target.id !== 'annotate-modal-notes')
