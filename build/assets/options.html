@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head id="head" lang="en">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css" id="style"/>
+        <link rel="stylesheet" href="style-invert.css" id="style-invert"/>
+        <meta charset="UTF-8"/>
+        <script src="js/options.js"></script>
+  </head>
+  <body id="body">
+        <div id="options-section">
+            <div class="options-container">
+                <div class="options-row">
+                    <div class="options-left">
+                        <span>Detected download folder</span>
+                    </div>
+                    <div class="options-right">
+                        <span id="downloads-folder">(pending)</span>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="options-left">
+                        <span>Delay between captures</span>
+                    </div>
+                    <div class="options-right">
+                        <select id="per-screen-delay">
+                            <option value="0">0</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="400">400</option>
+                            <option value="500">500</option>
+                            <option value="1000">1000</option>
+                        </select><span>ms </span><span id="per-screen-delay-saved"></span>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="options-left">
+                        <span>Delay before capture start</span>
+                    </div>
+                    <div class="options-right">
+                        <select id="initial-delay">
+                            <option value="0">0</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="400">400</option>
+                            <option value="500">500</option>
+                            <option value="1000">1000</option>
+                        </select><span>ms </span><span id="initial-delay-saved"></span>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="options-left">
+                        <span>Blockchain</span><br>
+                    </div>
+                    <div class="options-right">
+                        <input type="radio" name="blockchain" id="blockchain-always" value="always">
+                        <span>Always queue</span><span id="blockchain-always-saved"></span><br>
+                        <input type="radio" name="blockchain" id="blockchain-optional" value="optional">
+                        <span>From image detail</span><span id="blockchain-optional-saved"></span><br>
+                        <input type="radio" name="blockchain" id="blockchain-never" value="never">
+                        <span>Never queue</span><span id="blockchain-never-saved"></span><br>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="options-left">
+                        <span>Auto-pin Images tab?</span>
+                    </div>
+                    <div class="options-right">
+                        <input type="checkbox" name="pinned" id="pinned"/>
+                        <span></span><br>
+                    </div>
+                </div>
+                <div class="options-row">
+                    <div class="options-left">
+                        <span>Invert colors?</span>
+                    </div>
+                    <div class="options-right">
+                        <input type="checkbox" name="invert" id="invert"/>
+                        <span></span><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
