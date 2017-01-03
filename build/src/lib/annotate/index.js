@@ -225,6 +225,7 @@ module.exports = function (background) {
         // This runs on right click
         window.addEventListener('contextmenu', function(ev) {
             ev.preventDefault();
+            _byId('annotate-tooltip').style.display = 'none';
             annotate.palette.style.display = 'block';
             annotate.palette.style.left = ev.pageX + "px";
             annotate.palette.style.top = ev.pageY + "px";
