@@ -213,6 +213,7 @@ module.exports = function (background) {
                     localStorage.setItem('palette-color', config.baseColor);
                 }
                 clearPaletteSelected();
+                annotate.palette.style.display = 'none';
                 this.className += " palette-selected";
             }
         }
