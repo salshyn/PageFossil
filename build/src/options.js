@@ -59,6 +59,17 @@ new Config(function (config) {
     if (localStorage.getItem(mainFolderKey)) {
         downloadsFolder.innerHTML = localStorage.getItem(mainFolderKey);
     }
+
+    options.cacheDelay = _byId('clear-cache');
+    options.cacheText = _byId('cache-text');
+    options.cacheDelay.addEventListener('click', function (event) {
+        this.disabled = true;
+        chrome.storage.local.clear();
+        options.cacheText.textContent = 'Cache cleared';
+        setTimeout(function () {
+            options.cacheText.textContent = '';
+        }, config.timers.messageDisplay);
+    });
     
     options.perScreenDelay = _byId('per-screen-delay');
     options.perScreenDelaySaved = _byId('per-screen-delay-saved');
