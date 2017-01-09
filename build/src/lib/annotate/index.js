@@ -158,6 +158,9 @@ module.exports = function (background) {
                 }
                 clearPaletteSelected();
                 this.className += ' palette-selected';
+                annotate.palette.style.display = 'none';
+                mouse.listen();
+                _setEditBehavior();
             }
         }
         var clearPaletteSelected = function() {
@@ -167,6 +170,7 @@ module.exports = function (background) {
         };
         window.addEventListener('contextmenu', function(ev) {
             ev.preventDefault();
+            annotate.tooltip.style.display = 'none';
             annotate.palette.style.display = 'block';
             annotate.palette.style.left = ev.pageX + 'px';
             annotate.palette.style.top = ev.pageY + 'px';
