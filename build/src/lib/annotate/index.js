@@ -7,7 +7,6 @@
 
 module.exports = function (background) {
 
-    // LABS-602
     if (localStorage.getItem('css') == 'style-invert') {
         document.getElementById('style').disabled = true;
         document.getElementById('style-invert').disabled = false;
@@ -120,6 +119,185 @@ module.exports = function (background) {
         annotate.scrollBarWidth = canvasHeight < maxHeight    ? 0 : 16;
     }
 
+    annotate.escapeNotes = function(notes) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(notes));
+        return div.innerHTML;
+    };
+
+    annotate.init = function(tab, capture) {
+        document.title = 'Annotator [' + config.appName + ']';
+        annotate.tab = tab;
+        annotate.thumbnail = capture.thumbnail;
+        annotate.url = capture.url;
+        _assignDOMnodes();
+        annotate.canvas = null;
+        annotate.graphemeCounter.innerHTML = config.qrcode.maxNotesLength;
+        annotate.modalNotes.addEventListener('input', function (e) {
+            if (e.which < 0x20) return;
+            var count = parseInt(GraphemeBreaker.countBreaks(this.value));
+            var max = parseInt(config.qrcode.maxNotesLength);
+            if (e.which < 0x20) return;
+            if (count === max)    e.preventDefault();
+            else if (count > max) {
+                annotate.graphemeCounter.innerHTML = 0;
+                this.value = this.value.substring(0, max);
+            }
+            else
+                annotate.graphemeCounter.innerHTML = max - count;
+        });
+
+        var palettes = [annotate.paletteBlack, annotate.paletteYellow, annotate.paletteOrange,
+            annotate.paletteRed, annotate.palettePurple, annotate.paletteBlue, annotate.paletteGreen];
+        annotate.paletteBlack.className += ' palette-selected';
+        for (var i = 0; i < palettes.length; i++) {
+            palettes[i].onclick = function () {
+                localStorage.setItem('palette-color', this.style.backgroundColor);
+                if (this.style.backgroundColor == 'rgb(0, 0, 0)') {
+                    localStorage.setItem('palette-color', config.baseColor);
+                }
+                clearPaletteSelected();
+                this.className += ' palette-selected';
+                annotate.palette.style.display = 'none';
+                mouse.listen();
+                _setEditBehavior();
+            }
+        }
+        var clearPaletteSelected = function() {
+            for (var i = 0; i < palettes.length; i++) {
+                palettes[i].className = 'palette-general';
+            }
+        };
+        window.addEventListener('contextmenu', function(ev) {
+            ev.preventDefault();
+            annotate.tooltip.style.display = 'none';
+            annotate.palette.style.display = 'block';
+            annotate.palette.style.left = ev.pageX + 'px';
+            annotate.palette.style.top = ev.pageY + 'px';
+            return false;
+        }, false);
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        var content = _byId('modal-box');
+        var element = _byId('annotate-open-modal')
+            .getAttribute('data-target');
+        var modal = _byId(element);
+        if (!animationDuration)
+            var animationDuration = '0.5s';
+        if (openAnimation === true)
+            var openAnimation = 'open-modal-animation';
+        if (openAnimation === false)
+            var openAnimation = null;
+        else
+            var openAnimation = 'open-modal-animation';
+
+        annotate.closeModal.onclick = function() {
+            var toast = _byId('annotate-toast');
+            toast.className = 'show';
+            toast.innerHTML = 
+                "<span id='annotate-notes-set'>"
+                + 'Notes set to: ' + '</br>' + annotate.escapeNotes(
+                    _byId('annotate-modal-notes').value)
+                + '</span>';
+            setTimeout(function() {
+                toast.className = toast.className.replace('show', '');
+            }, config.toasters.timeout);
+            modal.style.display = 'none';
+        };
+    
+        annotate.displayModal = function () {
+            var evt1 = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            var a1 = document.createElement('a');
+            document.body.appendChild(a1);
+            var canceled = !a1.dispatchEvent(evt1);
+            if (canceled) {
+                log.info('Event dispatch canceled.');
+            }
+            else {
+                annotate.openModal.dispatchEvent(evt1);
+            }
+        }
+
+        annotate.modalTitle.textContent = 'ADD NOTES';
+        annotate.openModal.onclick = function() {
+            modal.style.display = 'block';
+            content.style.animation = openAnimation;
+            content.style.animationDuration = animationDuration;
+        };
+        annotate.paletteClose.onclick = function() {
+            annotate.palette.style.display = 'none';
+        };
+        annotate.pen = new Pen(config, log, annotate, edge);
+
+        mouse.listen();
+        _setEditBehavior();
+        var save = new Save(config, log, fs, annotate);
+        save.init();
+
+        localStorage.setItem('palette-color', config.baseColor);
+        
+        if(capture.canvas) {
+            annotate.image.onload = function () {
+                annotate.whole.width = this.width;
+                annotate.whole.height = this.height;
+                firstCanvas = this;
+                var ctx = annotate.whole.getContext('2d');
+                if(window.devicePixelRatio > 1){
+                    ctx.scale(1/window.devicePixelRatio,
+                        1/window.devicePixelRatio);
+                }
+                ctx.drawImage(this, 0, 0);
+                edge.ex1 = 0;
+                edge.ex2 = annotate.whole.width;
+                edge.ey1 = 0;
+                edge.ey2 = annotate.whole.height;
+                _setSize();
+            };
+            try {
+                annotate.image.src = capture.dataURL;
+            }
+            catch(e) {
+                log.error('Load error: ' + e);
+                return;
+            }
+            capture.canvas.width = capture.canvas.height = 1;
+            capture.canvas = null;
+            delete capture.canvas;
+        }
+        annotate.waitForEvents();
+    };
+ 
+    annotate.manage = function (i) {
+        log.debug('Manage tab ' + annotate.tab.id);
+        chrome.runtime.getBackgroundPage(function (b) {
+            if (b.page2image) {
+                clearInterval(i);
+                var annotate = b.annotators[b.page2image];
+                b.page2image = false;
+                annotate.page2image();
+            }
+            if (b.displayModal) {
+                var annotate = b.annotators[b.displayModal];
+                b.displayModal = false;
+                annotate.displayModal();
+            }
+        });
+    };
+
+    annotate.page2image = function () {
+        var save = new Save(config, log, fs, annotate);
+        save.init();
+        save.exec();
+    };
+ 
     annotate.produceFinalImage = function (renderer, url) {
         var done = document.createElement('canvas'),
             pad = config.footer.pad;
@@ -175,183 +353,6 @@ module.exports = function (background) {
                 renderer(done.toDataURL(), thumbnail);
         });
     };
-
-    annotate.init = function(tab, capture) {
-        document.title = 'Annotator [' + config.appName + ']';
-        annotate.tab = tab;
-        annotate.thumbnail = capture.thumbnail;
-        annotate.url = capture.url;
-        _assignDOMnodes();
-        annotate.canvas = null;
-        annotate.graphemeCounter.innerHTML = config.qrcode.maxNotesLength;
-        annotate.modalNotes.addEventListener('input', function (e) {
-            if (e.which < 0x20) return;
-            var count = parseInt(GraphemeBreaker.countBreaks(this.value));
-            var max = parseInt(config.qrcode.maxNotesLength);
-            if (e.which < 0x20) return;
-            if (count === max)    e.preventDefault();
-            else if (count > max) {
-                annotate.graphemeCounter.innerHTML = 0;
-                this.value = this.value.substring(0, max);
-            }
-            else
-                annotate.graphemeCounter.innerHTML = max - count;
-        });
-
-        // LABS-622
-        // Contains palettes
-        var palettes = [annotate.paletteBlack, annotate.paletteYellow, annotate.paletteOrange,
-        annotate.paletteRed, annotate.palettePurple, annotate.paletteBlue, annotate.paletteGreen];
-        // Black color by default
-        annotate.paletteBlack.className += " palette-selected";
-        // Assigns 'selected' class name and local storage value in a loop
-        for (var i = 0; i < palettes.length; i++) {
-            palettes[i].onclick = function () {
-                localStorage.setItem('palette-color', this.style.backgroundColor);
-                // Assign base/compliment if background color is black
-                if (this.style.backgroundColor == 'rgb(0, 0, 0)') {
-                    localStorage.setItem('palette-color', config.baseColor);
-                }
-                clearPaletteSelected();
-                this.className += " palette-selected";
-            }
-        }
-        // Clears all class names and sets one
-        var clearPaletteSelected = function() {
-            for (var i = 0; i < palettes.length; i++) {
-                palettes[i].className = 'palette-general';
-            }
-        }
-        // This runs on right click
-        window.addEventListener('contextmenu', function(ev) {
-            ev.preventDefault();
-            annotate.palette.style.display = 'block';
-            annotate.palette.style.left = ev.pageX + "px";
-            annotate.palette.style.top = ev.pageY + "px";
-            return false;
-        }, false);
-
-        var content = _byId('modal-box');
-        var element = _byId('annotate-open-modal')
-            .getAttribute('data-target');
-        var modal = _byId(element);
-        if (!animationDuration)
-            var animationDuration = '0.5s';
-        if (openAnimation === true)
-            var openAnimation = 'open-modal-animation';
-        if (openAnimation === false)
-            var openAnimation = null;
-        else
-            var openAnimation = 'open-modal-animation';
-
-        // LABS-622
-        annotate.paletteClose.onclick = function() {
-            annotate.palette.style.display = 'none';
-        }
-
-        annotate.openModal.onclick = function() {
-            modal.style.display = 'block';
-            content.style.animation = openAnimation;
-            content.style.animationDuration = animationDuration;
-        }
-        annotate.closeModal.onclick = function() {
-            var toast = _byId('annotate-toast');
-            toast.className = 'show';
-            toast.innerHTML = 
-                "<span id='annotate-notes-set'>"
-                + 'Notes set to: ' + '</br>' + _byId('annotate-modal-notes').value
-                + '</span>';
-            setTimeout(function() {
-                toast.className = toast.className.replace("show", "");
-            }, config.toasters.timeout);
-            modal.style.display = "none";
-        }
-        annotate.modalTitle.textContent = 'ADD NOTES';
-        window.onclick = function(event) {
-            if (event.target === modal) {
-                modal.style.display = "none";
-            }
-        }
-        annotate.pen = new Pen(config, log, annotate, edge);
-        mouse.listen();
-        _setEditBehavior();
-        var save = new Save(config, log, fs, annotate);
-        save.init();
-
-        // LABS-622
-        localStorage.setItem('palette-color', config.baseColor);
-        
-        if(capture.canvas) {
-            annotate.image.onload = function () {
-                annotate.whole.width = this.width;
-                annotate.whole.height = this.height;
-                firstCanvas = this;
-                var ctx = annotate.whole.getContext('2d');
-                if(window.devicePixelRatio > 1){
-                    ctx.scale(1/window.devicePixelRatio,
-                        1/window.devicePixelRatio);
-                }
-                ctx.drawImage(this, 0, 0);
-                edge.ex1 = 0;
-                edge.ex2 = annotate.whole.width;
-                edge.ey1 = 0;
-                edge.ey2 = annotate.whole.height;
-                _setSize();
-            };
-            try {
-                annotate.image.src = capture.dataURL;
-            }
-            catch(e) {
-                log.error('Load error: ' + e);
-                return;
-            }
-            capture.canvas.width = capture.canvas.height = 1;
-            capture.canvas = null;
-            delete capture.canvas;
-        }
-        annotate.waitForEvents();
-    };
- 
-    annotate.displayModal =    function () {
-        var evt1 = new MouseEvent('click', {
-            view: window,
-            bubbles: true,
-            cancelable: true
-        });
-        var a1 = document.createElement('a');
-        document.body.appendChild(a1);
-        var canceled = !a1.dispatchEvent(evt1);
-        if (canceled) {
-            log.info('Event dispatch canceled.');
-        }
-        else {
-            annotate.openModal.dispatchEvent(evt1);
-        }
-    }
-
-    annotate.manage = function (i) {
-        log.debug('Manage tab ' + annotate.tab.id);
-        chrome.runtime.getBackgroundPage(function (b) {
-            if (b.page2image) {
-                clearInterval(i);
-                var annotate = b.annotators[b.page2image];
-                b.page2image = false;
-                annotate.page2image();
-            }
-            if (b.displayModal) {
-                var annotate = b.annotators[b.displayModal];
-                b.displayModal = false;
-                annotate.displayModal();
-            }
-        });
-    };
-
-    annotate.page2image = function () {
-        var save = new Save(config, log, fs, annotate);
-        save.init();
-        save.exec();
-    };
- 
     annotate.waitForEvents = function () {
         var intervalId = setInterval(function () {
             annotate.manage(intervalId);

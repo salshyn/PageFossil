@@ -40,8 +40,8 @@ module.exports = function (config, log, annotate) {
             textStartX = (size*3) + (space*3) + pad,
             textStartY = canvas.height - size + (pad / 2);
         ctx.font = '8pt Monospace';
-        var lines = _fragmentText(ctx, annotate.modalNotes.value, canvas.width -
-            ((pad*2) + (size*3) + (space*2)));
+        var lines = _fragmentText(ctx, annotate.escapeNotes(annotate.modalNotes.value),
+            canvas.width - ((pad*2) + (size*3) + (space*2)));
         ctx.fillStyle = '#111';
         ctx.fillText('Location ' + c.url, textStartX, textStartY);
         ctx.fillText('Created    ' + c.dateObject.toUTCString(), textStartX,
@@ -64,7 +64,7 @@ module.exports = function (config, log, annotate) {
             image2 = new Image(),
             image3 = new Image(),
             loc = c.url.substring(0, config.qrcode.maxURLlength),
-            notes = annotate.modalNotes.value,
+            notes = annotate.escapeNotes(annotate.modalNotes.value),
             pad = c.pad,
             size = c.size,
             stats = c.timestamp.toString() + 'w' + canvas.width + 'h' +

@@ -21,19 +21,18 @@ build/assets/js/content/init.js                                                 
 build/assets/js/content/scan.js                                                 4.0K       64b6c3a46e8acf65d1abfc640d4ede8b93d313351b01036f32fdadc025a9aa8e
 build/assets/js/vendor/decoder.min.js                                           1.2M       ceeca045938456481aa1ed79c76a6028915b5355af1db9aeb5d405b3882a7867
 build/assets/js/vendor/QRScanJS.LICENSE                                         24K        97f43976c7ee1c909bda5d3cb9fa5cc30cfe6050dad41886db1f83b4f3b8dcb3
-build/assets/options.html                                                       8.0K       7ec5ac637717a8e1652a11ee1b87a14acd62fd0d7a022c5a70680c3aaa83afde
+build/assets/options.html                                                       8.0K       f0e18a317c0fa2588a2a9fce2af0883d8d3bfa3c7f002ea7b10cce26262e22e4
 build/assets/popup.html                                                         4.0K       c177e5ca6ea4fc4bd120abc1db7e2d4e63731474540182d46447a89860a27d00
-build/assets/style-invert.css                                                   12K        a274573fda96fa9ee638f66e555bb4862ab9c82be5dc5b8f73e8f7c108fe86ab
 build/assets/style.css                                                          12K        e7301bdff870f28161aa920b4129d9fd0f03f384f5805c4946c18aad29f57f90
 build/assets/view.html                                                          8.0K       b49f15adf7ec42094323fa7c7b9478029350f6a3761d1e2c83c40c3f7630eb35
 build/bin/make.js                                                               16K        ea000f6aa1b80a229db60a30425d349f4970a267dee3d5432a1be86fee38913d
 build/manifest.json                                                             4.0K       f43a674ba56d4c37703cb26efe33d0f1ab8fe8a8aa6a8e1a2f181f5838a7c520
 build/src/_config-bootstrap.js                                                  8.0K       318092b73d3bc8efe51349914ef508c985028302460c29a7203fbb9ca6f5dba8
 build/src/event.js                                                              8.0K       3076078275cd75106d2800ab9396020d2051ebcefa236e7c5ec5814533ea76cb
-build/src/lib/annotate/index.js                                                 16K        9f085a9a3ac5e320da0bef626f27d23f7a48578d34cc161405613f844c750fd4
+build/src/lib/annotate/index.js                                                 16K        18c5df78d1ab85476cf3a5016ca06f568e089405a9b8055d0555276a5f3570af
 build/src/lib/annotate/mouse.js                                                 4.0K       eb25546b22684d57e52a4c2ecd0b9193c0e0831d6de05198d87b3aec1ab95288
 build/src/lib/annotate/pen.js                                                   12K        4e15ac5006333e8ad30541102460bf197c957dd4f5a1a27247d77696272d281f
-build/src/lib/annotate/qr.js                                                    4.0K       76cb98724fc21d498a427c3efbbf8baf2d4a9d0a55e3ba29b456e30d71966ef3
+build/src/lib/annotate/qr.js                                                    4.0K       252dc5a54240d9138475fa73ac96db60c9a0f9468886dbcfd828744cf5baa02d
 build/src/lib/annotate/save.js                                                  4.0K       84c907ce44411c9eeaa7585dee7bdd0e3bb8fb55609a5c8da0cead750b79e07c
 build/src/lib/blockchain.js                                                     12K        7df14989f5e20e1793b702fdc017df43181f93b5b69b676e0812efab0bf89ebb
 build/src/lib/capture.js                                                        8.0K       6082833cfdc37dcc3ae9cfb995f8c719478d1fe76460d550974f900fe0d8831f
@@ -42,26 +41,25 @@ build/src/lib/filesystem/index.js                                               
 build/src/lib/images/figure.js                                                  16K        62779ccd775e07ff924e7802157622de84dabb78d2cccf5a201f9984b72e0881
 build/src/lib/images/gallery.js                                                 8.0K       27e5a4ab19bdead53afeb71b17bbccf80e8a39a33cf47cecfaa04bd61e35512c
 build/src/lib/images/index.js                                                   4.0K       fb250d4fd91083515d2ee6320e0ff727c97e51a96859a75f02a7048dc601b1d5
-build/src/lib/popup-handler.js                                                  8.0K       a8824e6fb70647b885eafb7681459bdcdbdf81a042878a4908631eb1e1e68eb2
+build/src/lib/popup-handler.js                                                  8.0K       348b5ef818ca7b6b743d7c7e5dfd5f7f1489771c47fe0cd7e31605dbdd4728e7
 build/src/lib/util/sha256.js                                                    8.0K       e052b64449c5c68f351bef41625a6fcc18e5baf83c749d1cbfe541014ef88dfb
 build/src/lib/util/tabhandler.js                                                8.0K       b35630393fb5bd8891353ccea367c77c7ba05e84c531a4f76d21daf80f824f35
-build/src/options.js                                                            8.0K       3c1a5dd4b36ce18a8f740596d24811c51d69e29f2c1fc387b8e16dabd67bed9e
+build/src/options.js                                                            8.0K       fa39899bf643c3087e291755d7c9c27f676f994b558f45db14df35f087bbbfae
 build/src/popup.js                                                              4.0K       cb88c73399f1e63f8d0a5fa90d4f38548d4ba3bd68f6b6f3d1c56c6bfdbf8d9a
 build/src/view.js                                                               4.0K       d7cd8284743cfc3e68f16134f45b487708d428a13a6b708656d28af8e9ff9ac3
-CHANGES.md                                                                      4.0K       d12a81d4a1a56f5a0a67c8fe0f0715015ea9578bbef2ecd1db6405cdcfd0bb05
+CHANGES.md                                                                      4.0K       c879460713296ce1e7118951e6d15e28c6fc65a7aeede02ca210773956a70162
 LICENSE                                                                         4.0K       a9ce9b0a16e6ac264efffbb68b62e8f2276d512b6e40b00cd2eb002b63114455
-package.json                                                                    4.0K       0ea9622cd65e54bc2f322f52f8664d998b89dcba8844941fb058f8129b76ef3e
+package.json                                                                    4.0K       ee1143d5b36829f11116257a2b23955f1d3f640cb97274a636203e4d88e2e6d7
 README.md                                                                       12K        57bec64bef46a4b1af3299012cae2d71e8d782352f2fa6d3766b215e222afae6
-SIGNED.txt                                                                      12K        b1cfd46bfb949d43c8ec894da95a99ed1f5015749eeda31bca0ae93c299223dd
 -----BEGIN PGP SIGNATURE-----
 Version: Keybase OpenPGP v2.0.61
 Comment: https://keybase.io/crypto
 
-wsBcBAABCgAGBQJYaB0nAAoJEFXbw7aEigbJ12IIAMWEdKZKZgbGVIT4/Duf87EW
-EvxG9KYSE+RtaoaCNCWue3TTfXnfAiDGsWUgb0pmqsQSnvVlDHsMz/XuSkC85YU+
-CdczFs9jAithTJ4Rj+lyZr3+AN6zVarnFy6d0D7d5707RW9/ECbbtrtIagzikjdf
-YaCHfEGrQvpXwKQvNtcfWZvn24HPKuALoO6Fnjf9iyp1FJfxrJhkWwZmE2D4oz3z
-Ce7Pjb75Zk9Xl1TJKdLchB7WOooCxTPYOKtVcJj+uqA3KHm3w2vaCB+Q/qHiLkSG
-17vzWaj1oPmfbrUYmk3yOlz/Gu6tUw1ON2fi0F5/idUO2w6Tt0Z7Dn8lHzTMsDI=
-=B78P
+wsBcBAABCgAGBQJYc8+jAAoJEFXbw7aEigbJUYoIAJaX9Eck3KNurkg5CoRM26LQ
+r7fgO29Lhtywm4vsItHHRCGDj19fDaZPdja1scZVS9BbjkU7L+lYlGNiQj+M1Mda
+tkEvAuepTXx4z3Kq5P5b5jOgZ5ikau+G4g+x0KrdcD6kry1VYeYfNH8Xmxi+kEKJ
+PsLMFHqGvflC521DDmFGUszPuAvlFpe05fEps5FZM2YM+Ppgmj+zZ7E4QCmlnU9g
+pnXAIcSIWrSp0syV/WECbUL/2eOlvb+Tef36uOWHOvqvooAB5mNnXuO18S/QTBkS
+3UB3m28gxoPvbYMfLV2peHkYj6K53+Mmm77Sjft4OQbnbDGtZao6zsHS0/ywmSc=
+=YGyI
 -----END PGP SIGNATURE-----
