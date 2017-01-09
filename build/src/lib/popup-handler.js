@@ -116,6 +116,7 @@ module.exports = function (background) {
         else if (popup.tab.url.indexOf(config.annotateView) >= 0) {
             popup.saveImage.style.display = 'block';
             popup.editNotes.style.display = 'block';
+            popup.images.style.display = 'block';
         }
         // anything else internal should just show
         // view-images 
