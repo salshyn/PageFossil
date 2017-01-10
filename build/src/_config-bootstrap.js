@@ -135,8 +135,6 @@ module.exports = function (cb) {
                 timeout: 3000
             },
             version: '___VERSION___', // Set via package.json
-            visibleNo: '0',
-            visibleYes: '1',
             website: 'https://twitter.com/c2folab',
             workerScripts: {
                 qrscan: 'js/vendor/decoder.min.js'

@@ -46,6 +46,8 @@ var Config = require('../src/_config-bootstrap.js'),
     popupFileName = 'build/assets/popup.html',
     releaseFolder = extensionsFolder + 'js/',
     robocopyOptions = '/e /njh /njs /ndl /ns',
+    sassFile = 'build/assets/style.sass',
+    sassNpmExe = './node_modules/npm-sass/bin/npm-sass',
     sourceFolder = 'build/src/',
     uglifyBin = './node_modules/.bin/uglifyjs',
     viewFileName = 'build/assets/view.html';
@@ -304,27 +306,18 @@ async.series([
         });
     },
     
-    // Generate custom sylesheet - style.css
+    // Generate custom stylesheet - style.css
     function(callback) {
-        var cssContent = '',
-        cssTemplateReader = require('readline').createInterface({
-            input: fs.createReadStream(cwd + cssTemplate)
-        }),
-        styleOptions = {
-            '___BASE_COLOR___' : config.baseColor,
-            '___COMPLIMENT_COLOR___' : config.complimentColor,
-            '___VISIBLE_YES___' : config.visibleYes
-        };
-        cssTemplateReader.on('line', function (line) {
-            var matches = line.match(/(___.+___)/);
-            if (matches && matches[1]) {
-                line = line.replace(matches[1], styleOptions[matches[1]]);
-            }
-            cssContent = cssContent + line + "\n";
-        });
-        cssTemplateReader.on('close', function () {
-            print('Writing stylesheet');
-            fs.writeFile(cwd + extensionsFolder + 'style.css', cssContent,
+        exec(sassNpmExe + ' ' + sassFile, function(status, output) {
+            var mapObj = {
+                '___BASE_COLOR___': config.baseColor,
+                '___COMPLIMENT_COLOR___': config.complimentColor
+            };
+            var result = output.replace(/___BASE_COLOR___|___COMPLIMENT_COLOR___/gi, function(matched){
+                return mapObj[matched];
+            });
+
+            fs.writeFile(cwd + extensionsFolder + 'style.css', result,
             'utf8', function () {
                 console.log('done.');
                 callback();
@@ -332,27 +325,18 @@ async.series([
         });
     },
 
-    // Generate custom sylesheet - style-invert.css
+    // Generate custom stylesheet - style-invert.css
     function(callback) {
-        var cssContent = '',
-        cssTemplateReader = require('readline').createInterface({
-            input: fs.createReadStream(cwd + cssTemplate)
-        }),
-        styleOptions = {
-            '___BASE_COLOR___' : config.complimentColor,
-            '___COMPLIMENT_COLOR___' : config.baseColor,
-            '___VISIBLE_NO___' : config.visibleNo
-        };
-        cssTemplateReader.on('line', function (line) {
-            var matches = line.match(/(___.+___)/);
-            if (matches && matches[1]) {
-                line = line.replace(matches[1], styleOptions[matches[1]]);
-            }
-            cssContent = cssContent + line + "\n";
-        });
-        cssTemplateReader.on('close', function () {
-            print('Writing stylesheet');
-            fs.writeFile(cwd + extensionsFolder + 'style-invert.css', cssContent,
+        exec(sassNpmExe + ' ' + sassFile, function(status, output) {
+            var mapObj = {
+                '___BASE_COLOR___': config.complimentColor,
+                '___COMPLIMENT_COLOR___': config.baseColor
+            };
+            var result = output.replace(/___BASE_COLOR___|___COMPLIMENT_COLOR___/gi, function(matched){
+                return mapObj[matched];
+            });
+
+            fs.writeFile(cwd + extensionsFolder + 'style-invert.css', result,
             'utf8', function () {
                 console.log('done.');
                 callback();
