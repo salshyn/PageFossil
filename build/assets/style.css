@@ -410,7 +410,17 @@ body {
     background: ___BASE_COLOR___;
     border: 1px solid ___COMPLIMENT_COLOR___;
     z-index: 1000;
-    display: none;
+    visibility: hidden;
+}
+#annotate-palette.show {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 1s linear;
+}
+#annotate-palette.hide {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 1s, opacity 1s linear;
 }
 #annotate-palette-close {
     width: 20px;

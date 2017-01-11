@@ -72,6 +72,7 @@
         newImg.style.top = coords.y + 'px';
 
         annotate.container.addEventListener('mousemove', (function(drawing) {
+            annotate.palette.className = 'hide';
             return function(e) { _dragAndDrop(e, drawing); };
         }) (drawing), false);
 

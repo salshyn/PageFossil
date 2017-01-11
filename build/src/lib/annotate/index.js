@@ -158,7 +158,7 @@ module.exports = function (background) {
                 }
                 clearPaletteSelected();
                 this.className += ' palette-selected';
-                annotate.palette.style.display = 'none';
+                annotate.palette.className = 'hide';
                 mouse.listen();
                 _setEditBehavior();
             }
@@ -171,7 +171,7 @@ module.exports = function (background) {
         window.addEventListener('contextmenu', function(ev) {
             ev.preventDefault();
             annotate.tooltip.style.display = 'none';
-            annotate.palette.style.display = 'block';
+            annotate.palette.className = 'show';
             annotate.palette.style.left = ev.pageX + 'px';
             annotate.palette.style.top = ev.pageY + 'px';
             return false;
@@ -233,7 +233,9 @@ module.exports = function (background) {
             content.style.animationDuration = animationDuration;
         };
         annotate.paletteClose.onclick = function() {
-            annotate.palette.style.display = 'none';
+            annotate.palette.className = 'hide';
+            mouse.listen();
+            _setEditBehavior();
         };
         annotate.pen = new Pen(config, log, annotate, edge);
 
