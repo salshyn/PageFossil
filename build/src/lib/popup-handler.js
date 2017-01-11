@@ -94,6 +94,7 @@ module.exports = function (background) {
         };
         popup.editNotes.onclick = function () {
             _sendMessage('editNotes', {fromTab: tab.id});
+            window.close();
         };
         popup.check();
     };
