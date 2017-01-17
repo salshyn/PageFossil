@@ -11,6 +11,8 @@ new Config(function (config) {
         config.timers.perScreenDelay;
     config.timers.initialDelay = localStorage.initialDelay ||
         config.timers.initialDelay;
+    config.timers.blockchainTimeout = localStorage.blockchainTimeout ||
+        config.timers.blockchainTimeout;
 
     window.config = config;
     window.log = require('loglevel');

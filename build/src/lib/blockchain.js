@@ -211,17 +211,22 @@ module.exports = function (background) {
     };
 
     blockchain.monitor = function() {
+        // Pete, here I want to use the 'config.blockchainTimeout' as it, actually, was, but it's value is fixed from the very beginning. This file has 
+        // module.exports = function(background) in the very beginning: it takes the "background" that has "config". Then
+        // that "config" is used across this file, fixed, without being able to change. But, if I use localStorage, it is
+        // flexible and I can access or edit anywhere.
+        log.debug(localStorage.blockchainTimeout);
         blockchain.intervalId = setInterval(function () {
             if (config.blockchain.usage !== 'never') {
                 _examineCache();
             }
-        }, config.timers.blockchainTimeout);
+        }, localStorage.blockchainTimeout);
         setTimeout(function () {
             log.debug('Force interval timeout on blockchain poll.');
             clearInterval(blockchain.intervalId);
             blockchain.polling = false;
             blockchain.monitor();
-        }, config.timers.forceBlockchainTimeout);
+        }, localStorage.forceBlockchainTimeout);
     };
 
     return blockchain;

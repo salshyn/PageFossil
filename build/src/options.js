@@ -70,7 +70,40 @@ new Config(function (config) {
             options.cacheText.textContent = '';
         }, config.timers.messageDisplay);
     });
-    
+
+
+
+
+
+    options.blockchainTimeout = _byId('blockchain-select');
+    // The loop assigns selected = true to an option
+    for (var i = 0; i < options.blockchainTimeout.options.length; i++) {
+        if (Number(options.blockchainTimeout.options[i].innerHTML) === localStorage.blockchainTimeout / 60000) {
+            options.blockchainTimeout.options[i].selected = true;
+        }
+    }
+    options.blockchainTimeout.onchange = function(event) {
+        try {
+            // this assigns the value selected by a user
+            localStorage.blockchainTimeout = Number(event.target.value) * 60000;
+            config.timers.blockchainTimeout = Number(event.target.value) * 60000;
+            localStorage.forceBlockchainTimeout = Number(event.target.value) * 60000;
+            config.timers.forceBlockchainTimeout = Number(event.target.value) * 60000;
+        }
+        catch (e) {
+            console.log(e);
+            options.blockchainTimeout.textContent = 'Error';
+            setTimeout(function () {
+                options.blockchainTimeout.textContent = '';
+            }, config.timers.messageDisplay);
+        }
+    }
+
+
+
+
+
+
     options.perScreenDelay = _byId('per-screen-delay');
     options.perScreenDelaySaved = _byId('per-screen-delay-saved');
     options.perScreenDelay.onchange = function() {
